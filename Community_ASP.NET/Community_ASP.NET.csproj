@@ -2,10 +2,29 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;test</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20201013132703_InitialCreate.cs" />
+    <Compile Remove="Migrations\20201013132703_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20201013175723_InitialCommit.cs" />
+    <Compile Remove="Migrations\20201013175723_InitialCommit.Designer.cs" />
+    <Compile Remove="Migrations\20201013201856_InitialCommit.cs" />
+    <Compile Remove="Migrations\20201013201856_InitialCommit.Designer.cs" />
+    <Compile Remove="Migrations\20201013215925_InitialCommit.cs" />
+    <Compile Remove="Migrations\20201013215925_InitialCommit.Designer.cs" />
+    <Compile Remove="Migrations\20201014114202_InitialCommit.cs" />
+    <Compile Remove="Migrations\20201014114202_InitialCommit.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
