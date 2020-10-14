@@ -1,5 +1,4 @@
 ﻿using Community_ASP.NET.Entities;
-using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,51 +7,48 @@ using System.Threading.Tasks;
 
 namespace Community_ASP.NET.DAL
 {
-    public static class GroupDAL
+    public static class UserDAL
     {
-        public static void AddGroupToDB(Group groupToDb)
+        public static void AddUserToDB(User userToDB)
         {
             using (var db = new CommunityContext())
             {
-                db.Add(groupToDb);
+                db.Add(userToDB);
                 db.SaveChanges();
             }
         }
 
-        public static IEnumerable<Group> GetGroups()
+        public static IEnumerable<User> GetUsers()
         {
             using (var db = new CommunityContext())
             {
-                var groups = db.Groups
-                    .Include(g => g.Messages)
-                    .Include(g => g.UserGroups)
-                        .ThenInclude(u => u.User)
-                    .OrderBy(g => g.Id);
-
-                return groups.ToArray();
+                var users = db.Users
+                    .Include(u => u.UserGroups)
+                        .ThenInclude(g => g.Group)
+                    .OrderBy(u => u.Id);
+                return users.ToArray();
             }
         }
 
-        public static Group GetGroup(int id)
+        public static User GetUser(int id)
         {
             using (var db = new CommunityContext())
             {
-                var group = db.Groups
-                    .Include(g => g.Messages)
-                    .Include(g => g.UserGroups)
-                        .ThenInclude(u => u.User)
-                    .First(g => g.Id == id);
-                return group;
+                var user = db.Users
+                    .Include(u => u.UserGroups)
+                        .ThenInclude(g => g.Group)
+                    .First(u => u.Id == id);
+                return user;
             }
         }
 
-        public static bool UpdateGroup(Group updatedGroup)
+        public static bool UpdateUser(User updatedUser)
         {
             try
             {
                 using (var db = new CommunityContext())
                 {
-                    db.Update(updatedGroup);
+                    db.Update(updatedUser);
                     db.SaveChanges();
                     return true;
                 }
@@ -61,20 +57,20 @@ namespace Community_ASP.NET.DAL
             {
                 return false;
             }
-            
         }
 
-        public static bool DeleteGroup(Group deletedGroup)
+        public static bool DeleteUser(User deletedUser)
         {
             try
             {
                 using (var db = new CommunityContext())
                 {
-                    db.Remove(deletedGroup);
+                    db.Remove(deletedUser);
                     db.SaveChanges();
                     return true;
                 }
-            }catch
+            }
+            catch
             {
                 return false;
             }

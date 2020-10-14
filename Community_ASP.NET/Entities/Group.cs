@@ -13,6 +13,7 @@ namespace Community_ASP.NET.Entities
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual IEnumerable<Message> Message { get; set; }
+        public ICollection<UserGroup> UserGroups { get; set; }
+        public ICollection<Message> Messages { get; set; }
     }
 }

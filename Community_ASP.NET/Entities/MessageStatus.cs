@@ -22,8 +22,8 @@ namespace Community_ASP.NET.Entities
         public DateTime Timestamp { get; set; }
         
         [ForeignKey("MessageId")]
-        public virtual Message Message { get; set; }
+        public Message Message { get; set; }
         [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        public User User { get; set; }
     }
 }

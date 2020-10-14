@@ -17,7 +17,7 @@ namespace Community_ASP.NET.Entities
         public string Password { get; set; }
         public string Email { get; set; }
 
-        public IEnumerable<Group> Groups { get; set; }
-        public IEnumerable<Message> Messages { get; set; }
+        public ICollection<UserGroup> UserGroups { get; set; } = new Collection<UserGroup>();
+        public ICollection<Message> Messages { get; set; }
     }
 }

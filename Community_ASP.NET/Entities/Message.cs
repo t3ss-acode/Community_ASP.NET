@@ -22,10 +22,10 @@ namespace Community_ASP.NET.Entities
 
         [ForeignKey("SenderId")]
         [InverseProperty("Messages")]
-        public virtual User Sender { get; set; }
+        public User Sender { get; set; }
         [ForeignKey("ReciverId")]
-        public virtual User Reciver { get; set; }
+        public User Reciver { get; set; }
         [ForeignKey("GroupId")]
-        public virtual Group ReciverGroup { get; set; }
+        public Group ReciverGroup { get; set; }
     }
 }
