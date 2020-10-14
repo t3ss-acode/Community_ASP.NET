@@ -23,8 +23,7 @@ namespace Community_ASP.NET.DAL
             using (var db = new CommunityContext())
             {
                 var groups = db.Groups
-                    .OrderBy(g => g.Id)
-                   ;
+                    .OrderBy(g => g.Id);
 
                 return groups.ToArray();
             }
@@ -40,7 +39,7 @@ namespace Community_ASP.NET.DAL
             }
         }
 
-        public static bool updateGroup(Group updatedGroup)
+        public static bool UpdateGroup(Group updatedGroup)
         {
             try
             {
@@ -61,7 +60,7 @@ namespace Community_ASP.NET.DAL
             
         }
 
-        public static bool deleteGroup(Group deletedGroup)
+        public static bool DeleteGroup(Group deletedGroup)
         {
             try
             {
