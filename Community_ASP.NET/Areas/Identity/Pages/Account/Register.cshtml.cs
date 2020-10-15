@@ -20,14 +20,14 @@ namespace Community_ASP.NET.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<Community_ASPNETUser> _signInManager;
+        private readonly UserManager<Community_ASPNETUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
+            UserManager<Community_ASPNETUser> userManager,
+            SignInManager<Community_ASPNETUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -75,11 +75,11 @@ namespace Community_ASP.NET.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email };
+                var user = new Community_ASPNETUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("Community_ASPNETUser created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

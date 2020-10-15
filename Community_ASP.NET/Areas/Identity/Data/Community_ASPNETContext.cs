@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Community_ASP.NET.Data
 {
-    public class Community_ASPNETContext : IdentityDbContext<User>
+    public class Community_ASPNETContext : IdentityDbContext<Community_ASPNETUser>
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<Community_ASPNETUser> Users { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
@@ -31,10 +31,10 @@ namespace Community_ASP.NET.Data
             base.OnModelCreating(builder);
             builder.Entity<Group>().HasKey(i => i.Id);
             builder.Entity<Message>().HasKey(i => i.Id);
-            builder.Entity<User>().HasKey(i => i.Id);
+            builder.Entity<Community_ASPNETUser>().HasKey(i => i.Id);
 
             builder.Entity<Message>()
-                .HasOne(typeof(User), ("Sender"))
+                .HasOne(typeof(Community_ASPNETUser), ("Sender"))
                 .WithMany()
                 .HasForeignKey("SenderId")
                 .OnDelete(DeleteBehavior.NoAction);

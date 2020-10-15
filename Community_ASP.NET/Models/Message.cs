@@ -23,8 +23,8 @@ namespace Community_ASP.NET.Models
 
         [ForeignKey("SenderId")]
         [InverseProperty("Messages")]
-        public User Sender { get; set; }
+        public Community_ASPNETUser Sender { get; set; }
         [ForeignKey("ReciverId")]
-        public User Reciver { get; set; }
+        public Community_ASPNETUser Reciver { get; set; }
     }
 }

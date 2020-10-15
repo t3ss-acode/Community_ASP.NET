@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Community_ASP.NET.Areas.Identity.Data
 {
-    // Add profile data for application users by adding properties to the User class
-    public class User : IdentityUser
+    // Add profile data for application users by adding properties to the Community_ASPNETUser class
+    public class Community_ASPNETUser : IdentityUser
     {
         public ICollection<UserGroup> UserGroups { get; set; } = new Collection<UserGroup>();
         public ICollection<Message> Messages { get; set; } = new Collection<Message>();

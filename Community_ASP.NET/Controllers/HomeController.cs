@@ -50,7 +50,7 @@ namespace Community_ASP.NET.Controllers
            
         }
 
-        private void print(User u)
+        private void print(Community_ASPNETUser u)
         {
             Debug.WriteLine("Id: " + u.Id + " Username: " + u.UserName + " Password: " + u.PasswordHash + " Email: " + u.Email);
             if(u.UserGroups != null)

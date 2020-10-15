@@ -10,7 +10,7 @@ namespace Community_ASP.NET.DAL
 {
     public static class UserDAL
     {
-        public static void AddUserToDB(User userToDB)
+        public static void AddUserToDB(Community_ASPNETUser userToDB)
         {
             using (var db = new Community_ASPNETContext())
             {
@@ -19,7 +19,7 @@ namespace Community_ASP.NET.DAL
             }
         }
 
-        public static IEnumerable<User> GetUsers()
+        public static IEnumerable<Community_ASPNETUser> GetUsers()
         {
             using (var db = new Community_ASPNETContext())
             {
@@ -31,7 +31,7 @@ namespace Community_ASP.NET.DAL
             }
         }
 
-        public static User GetUser(string userId)
+        public static Community_ASPNETUser GetUser(string userId)
         {
             using (var db = new Community_ASPNETContext())
             {
@@ -43,7 +43,7 @@ namespace Community_ASP.NET.DAL
             }
         }
 
-        public static bool UpdateUser(User updatedUser)
+        public static bool UpdateUser(Community_ASPNETUser updatedUser)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace Community_ASP.NET.DAL
             }
         }
 
-        public static bool DeleteUser(User deletedUser)
+        public static bool DeleteUser(Community_ASPNETUser deletedUser)
         {
             try
             {
