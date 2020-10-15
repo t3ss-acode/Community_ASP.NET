@@ -15,7 +15,6 @@ namespace Community_ASP.NET.Data
         public DbSet<Community_ASPNETUser> Users { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<UserGroup> UserGroups { get; set; }
 
         public Community_ASPNETContext(DbContextOptions<Community_ASPNETContext> options)
             : base(options)
@@ -49,6 +48,11 @@ namespace Community_ASP.NET.Data
                 .HasOne(ug => ug.Group)
                 .WithMany(g => g.UserGroups)
                 .HasForeignKey(ug => ug.GroupId);
+            builder.Entity<LoginLog>()
+                .HasOne(ll => ll.user)
+                .WithMany(u => u.LoginLogs)
+                .HasForeignKey(ll => ll.userId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

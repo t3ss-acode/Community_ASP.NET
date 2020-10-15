@@ -17,7 +17,6 @@ namespace Community_ASP.NET.Models
         public string Title { get; set; }
         public string Body { get; set; }
         public bool IsRead { get; set; }
-        public bool IsRemoved { get; set; }
         [Timestamp]
         public byte[] RowVersion { get; set; }
 

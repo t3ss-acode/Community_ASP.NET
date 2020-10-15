@@ -11,7 +11,9 @@ namespace Community_ASP.NET.Areas.Identity.Data
     // Add profile data for application users by adding properties to the Community_ASPNETUser class
     public class Community_ASPNETUser : IdentityUser
     {
+        public int numberOfDeletedMessages { get; set; }
         public ICollection<UserGroup> UserGroups { get; set; } = new Collection<UserGroup>();
         public ICollection<Message> Messages { get; set; } = new Collection<Message>();
+        public ICollection<LoginLog> LoginLogs { get; set; }
     }
 }

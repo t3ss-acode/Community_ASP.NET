@@ -26,6 +26,7 @@ namespace Community_ASP.NET.DAL
                 var users = db.Users
                     .Include(u => u.UserGroups)
                         .ThenInclude(g => g.Group)
+                    .Include(u => u.LoginLogs)
                     .OrderBy(u => u.Id);
                 return users.ToArray();
             }
@@ -38,6 +39,7 @@ namespace Community_ASP.NET.DAL
                 var user = db.Users
                     .Include(u => u.UserGroups)
                         .ThenInclude(g => g.Group)
+                    .Include(u => u.LoginLogs)
                     .First(u => u.Id.Equals(userId));
                 return user;
             }
