@@ -49,9 +49,9 @@ namespace Community_ASP.NET.Data
                 .WithMany(g => g.UserGroups)
                 .HasForeignKey(ug => ug.GroupId);
             builder.Entity<LoginLog>()
-                .HasOne(ll => ll.user)
+                .HasOne(ll => ll.User)
                 .WithMany(u => u.LoginLogs)
-                .HasForeignKey(ll => ll.userId)
+                .HasForeignKey(ll => ll.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

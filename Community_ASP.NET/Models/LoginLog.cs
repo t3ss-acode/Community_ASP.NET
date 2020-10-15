@@ -10,9 +10,9 @@ namespace Community_ASP.NET.Models
     public class LoginLog
     {
         public int Id { get; set; }
-        public string userId { get; set; }
+        public string UserId { get; set; }
         [Timestamp]
         public byte[] RowVersion { get; set; }
-        public Community_ASPNETUser user { get; set; }
+        public Community_ASPNETUser User { get; set; }
     }
 }
