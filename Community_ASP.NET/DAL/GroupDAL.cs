@@ -1,4 +1,5 @@
-﻿using Community_ASP.NET.Entities;
+﻿using Community_ASP.NET.Data;
+using Community_ASP.NET.Models;
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,7 +13,7 @@ namespace Community_ASP.NET.DAL
     {
         public static void AddGroupToDB(Group groupToDb)
         {
-            using (var db = new CommunityContext())
+            using (var db = new Community_ASPNETContext())
             {
                 db.Add(groupToDb);
                 db.SaveChanges();
@@ -21,7 +22,7 @@ namespace Community_ASP.NET.DAL
 
         public static IEnumerable<Group> GetGroups()
         {
-            using (var db = new CommunityContext())
+            using (var db = new Community_ASPNETContext())
             {
                 var groups = db.Groups
                     .Include(g => g.Messages)
@@ -35,7 +36,7 @@ namespace Community_ASP.NET.DAL
 
         public static Group GetGroup(int id)
         {
-            using (var db = new CommunityContext())
+            using (var db = new Community_ASPNETContext())
             {
                 var group = db.Groups
                     .Include(g => g.Messages)
@@ -50,7 +51,7 @@ namespace Community_ASP.NET.DAL
         {
             try
             {
-                using (var db = new CommunityContext())
+                using (var db = new Community_ASPNETContext())
                 {
                     db.Update(updatedGroup);
                     db.SaveChanges();
@@ -68,7 +69,7 @@ namespace Community_ASP.NET.DAL
         {
             try
             {
-                using (var db = new CommunityContext())
+                using (var db = new Community_ASPNETContext())
                 {
                     db.Remove(deletedGroup);
                     db.SaveChanges();

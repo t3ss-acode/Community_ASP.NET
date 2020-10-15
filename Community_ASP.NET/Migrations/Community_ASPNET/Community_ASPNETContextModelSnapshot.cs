@@ -19,7 +19,7 @@ namespace Community_ASP.NET.Migrations.Community_ASPNET
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Community_ASP.NET.Areas.Identity.Data.Community_ASPNETUser", b =>
+            modelBuilder.Entity("Community_ASP.NET.Areas.Identity.Data.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -82,6 +82,80 @@ namespace Community_ASP.NET.Migrations.Community_ASPNET
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Community_ASP.NET.Models.Group", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("Community_ASP.NET.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRemoved")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ReciverId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("SenderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("ReciverId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Community_ASP.NET.Models.UserGroup", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("UserGroups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -219,6 +293,37 @@ namespace Community_ASP.NET.Migrations.Community_ASPNET
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Community_ASP.NET.Models.Message", b =>
+                {
+                    b.HasOne("Community_ASP.NET.Models.Group", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("GroupId");
+
+                    b.HasOne("Community_ASP.NET.Areas.Identity.Data.User", "Reciver")
+                        .WithMany("Messages")
+                        .HasForeignKey("ReciverId");
+
+                    b.HasOne("Community_ASP.NET.Areas.Identity.Data.User", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.NoAction);
+                });
+
+            modelBuilder.Entity("Community_ASP.NET.Models.UserGroup", b =>
+                {
+                    b.HasOne("Community_ASP.NET.Models.Group", "Group")
+                        .WithMany("UserGroups")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Community_ASP.NET.Areas.Identity.Data.User", "User")
+                        .WithMany("UserGroups")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -230,7 +335,7 @@ namespace Community_ASP.NET.Migrations.Community_ASPNET
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Community_ASP.NET.Areas.Identity.Data.Community_ASPNETUser", null)
+                    b.HasOne("Community_ASP.NET.Areas.Identity.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -239,7 +344,7 @@ namespace Community_ASP.NET.Migrations.Community_ASPNET
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Community_ASP.NET.Areas.Identity.Data.Community_ASPNETUser", null)
+                    b.HasOne("Community_ASP.NET.Areas.Identity.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -254,7 +359,7 @@ namespace Community_ASP.NET.Migrations.Community_ASPNET
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Community_ASP.NET.Areas.Identity.Data.Community_ASPNETUser", null)
+                    b.HasOne("Community_ASP.NET.Areas.Identity.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -263,7 +368,7 @@ namespace Community_ASP.NET.Migrations.Community_ASPNET
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Community_ASP.NET.Areas.Identity.Data.Community_ASPNETUser", null)
+                    b.HasOne("Community_ASP.NET.Areas.Identity.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

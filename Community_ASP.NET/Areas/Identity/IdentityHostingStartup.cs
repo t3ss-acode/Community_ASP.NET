@@ -20,7 +20,7 @@ namespace Community_ASP.NET.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("Community_ASPNETContextConnection")));
 
-                services.AddDefaultIdentity<Community_ASPNETUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<Community_ASPNETContext>();
             });
         }

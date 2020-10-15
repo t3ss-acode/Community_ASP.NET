@@ -18,13 +18,13 @@ namespace Community_ASP.NET.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<Community_ASPNETUser> _userManager;
-        private readonly SignInManager<Community_ASPNETUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<Community_ASPNETUser> signInManager, 
+        public LoginModel(SignInManager<User> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<Community_ASPNETUser> userManager)
+            UserManager<User> userManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
