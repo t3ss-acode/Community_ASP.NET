@@ -17,7 +17,7 @@ namespace Community_ASP.NET.Models
             _context = context;
         }
 
-        public Community_ASPNETUser GetUser()
+        public User GetUser()
         {
             var user = _context.Users.Find("2ffc89d2-59fa-4c3f-8059-2e6b43a9289c"); // await _context.Users.Find(1);
 
