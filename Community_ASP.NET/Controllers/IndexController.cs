@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Community_ASP.NET.Areas.Identity.Data;
 using Community_ASP.NET.Data;
 using Community_ASP.NET.Models;
+using Community_ASP.NET.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Community_ASP.NET.Controllers
 {
     [Authorize]
-    public class InfoController : Controller
+    public class IndexController : Controller
     {
         
-        private readonly Community_ASPNETContext _context;
+        private readonly UserManager<Community_ASPNETUser> _userManager;
 
-        public InfoController(Community_ASPNETContext context)
+        public IndexController(UserManager<Community_ASPNETUser> userManager)
         {
-            _context = context;
+            _userManager = userManager;
         }
         
 
@@ -27,8 +30,15 @@ namespace Community_ASP.NET.Controllers
         
         public ActionResult Index()
         {
+            var userInfoList = new List<UserInfo>();
 
-            return View(_context.Users.ToList());
+
+            var user = UserBL.GetUser(_userManager.GetUserId(User));
+            userInfoList.Add(user);
+
+
+            //userInfoList.Add(new UserInfo("test name", "test@kth.se", DateTime.Now, 4, 5, 20));
+            return View(userInfoList);
         }
         
 
