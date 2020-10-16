@@ -22,7 +22,7 @@ namespace Community_ASP.NET.Models
 
         public static UserInfo GetUser(string userId)
         {
-            /*
+            
             Community_ASPNETUser user = UserDAL.GetUser(userId);
 
             var userInfo = new UserInfo();
@@ -34,8 +34,6 @@ namespace Community_ASP.NET.Models
             userInfo.NrOfDeletedMessages = 5;   //variable in user
 
             return userInfo;
-            */
-            return new UserInfo("test name", "test@kth.se", DateTime.Now, 4, 5, 20);
         }
 
         public static void UpdateUser(Community_ASPNETUser user)

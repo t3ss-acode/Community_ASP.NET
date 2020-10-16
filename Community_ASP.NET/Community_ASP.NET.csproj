@@ -18,6 +18,8 @@
     <Compile Remove="Migrations\20201014114202_InitialCommit.Designer.cs" />
     <Compile Remove="Migrations\Community_ASPNET\20201015185120_AddLoginLog.cs" />
     <Compile Remove="Migrations\Community_ASPNET\20201015185120_AddLoginLog.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201016171301_receiverNameChanged.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201016171301_receiverNameChanged.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

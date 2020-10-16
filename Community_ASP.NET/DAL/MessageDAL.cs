@@ -1,4 +1,4 @@
-﻿using Community_ASP.NET.Data;
+﻿    using Community_ASP.NET.Data;
 using Community_ASP.NET.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,6 +19,7 @@ namespace Community_ASP.NET.DAL
                 db.SaveChanges();
             }
         }
+
         public static IEnumerable<Message> GetMessages()
         {
             using (var db = new Community_ASPNETContext())
@@ -31,7 +32,7 @@ namespace Community_ASP.NET.DAL
             }
         }
 
-        public static IEnumerable<Message> GetUserMessages(String userId)
+        public static IEnumerable<Message> GetUserMessages(string userId)
         {
             using (var db = new Community_ASPNETContext())
             {
@@ -39,7 +40,19 @@ namespace Community_ASP.NET.DAL
                     .Include(m => m.Sender)
                     .Include(m => m.Reciver)
                     .Where(m => m.ReciverId.Equals(userId));
-                return message;
+                return message.ToArray();
+            }
+        }
+
+        public static IEnumerable<Message> GetSenderMessages(string userId, string senderId)
+        {
+            using (var db = new Community_ASPNETContext())
+            {
+                var message = db.Messages
+                    .Include(m => m.Sender)
+                    .Include(m => m.Reciver)
+                    .Where(m => m.ReciverId.Equals(userId) & m.SenderId.Equals(senderId));
+                return message.ToArray();
             }
         }
 

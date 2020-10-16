@@ -54,5 +54,11 @@ namespace Community_ASP.NET.Data
                 .HasForeignKey(ll => ll.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
+
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Community_ASP.NET;Trusted_Connection=True;");
+        }
     }
 }

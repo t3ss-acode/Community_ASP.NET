@@ -16,8 +16,7 @@ namespace Community_ASP.NET.Controllers
 {
     [Authorize]
     public class IndexController : Controller
-    {
-        
+    {   
         private readonly UserManager<Community_ASPNETUser> _userManager;
 
         public IndexController(UserManager<Community_ASPNETUser> userManager)
@@ -32,12 +31,9 @@ namespace Community_ASP.NET.Controllers
         {
             var userInfoList = new List<UserInfo>();
 
-
             var user = UserBL.GetUser(_userManager.GetUserId(User));
             userInfoList.Add(user);
 
-
-            //userInfoList.Add(new UserInfo("test name", "test@kth.se", DateTime.Now, 4, 5, 20));
             return View(userInfoList);
         }
         

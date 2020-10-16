@@ -23,23 +23,21 @@ namespace Community_ASP.NET.Controllers
         public IActionResult Index()
         {
             //Add
-            //var message = new Message { SenderId = 3, ReciverId = 4, Title = "Test", Body = "This is a test message." };
             //var messageG = new Message { SenderId = 3, ReciverId = 5, Title = "Test Group", Body = "This is a test group message." };
-            //MessageDAL.AddMessageToDB(message);
             //MessageDAL.AddMessageToDB(messageG);
 
             //Get
-            /*var allMessages = MessageDAL.GetMessages();
-            var userMessages = MessageDAL.GetUserMessages("4");
-            foreach (var m in allMessages)
-                print(m);
-            foreach (var m in userMessages)
-                print(m);
-            */
+            //var allMessages = MessageDAL.GetMessages();
+            //var userMessages = MessageDAL.GetUserMessages("4");
+            //foreach (var m in allMessages)
+            //    print(m);
+            //foreach (var m in userMessages)
+            //    print(m);
+            
             //Update
 
             //Delete 
-
+            
             return View();
         }
 

@@ -20,8 +20,11 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <!--The folder name is changed from index to info to maybe avoid some confusion-->
                             <a class="nav-link text-dark" asp-area="" asp-controller="Index" asp-action="Index">Info</a>
+                        </li>
+                        <li class="nav-item">
+                            <!--Only here for testing-->
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Read" asp-action="Messages">Messsages</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Read" asp-action="Index">Read messages</a>
