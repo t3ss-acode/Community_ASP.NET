@@ -27,7 +27,7 @@ namespace Community_ASP.NET.Models
             var userInfo = new UserInfo();
             userInfo.Name = user.UserName + "name";
             userInfo.Email = user.Email;
-            userInfo.LastLogin = DateTime.Now;  //todo: Change to proper timestamp
+            userInfo.LastLogin = latestLogin(user);  //todo: Change to proper timestamp
             userInfo.NrOfLoginsLastMonth = numberOfLogins(user);   //method for loginlog
             userInfo.NrOfUnreadMessages = numberOfUnreadMsg(user);   //method for messages
             userInfo.NrOfDeletedMessages = user.numberOfDeletedMessages;   //variable in user
@@ -45,8 +45,9 @@ namespace Community_ASP.NET.Models
             UserDAL.DeleteUser(user);
         }
 
-        public static void LogLogin(Community_ASPNETUser user)
+        public static void LogLogin(string userId)
         {
+            var user = UserDAL.GetUser(userId);
             user.LoginLogs.Add(new LoginLog { User = user, UserId = user.Id });
             UpdateUser(user);
         }
@@ -55,7 +56,7 @@ namespace Community_ASP.NET.Models
         {
             int logins = 0;
             foreach (var l in user.LoginLogs)
-                if (Community_ASPNETUser.convertToDateTime(l.RowVersion).Month == DateTime.Now.Month)
+                if (l.Timestamp.Month == DateTime.Now.Month)
                     logins++;
             return logins;
         } 
@@ -67,6 +68,20 @@ namespace Community_ASP.NET.Models
                 if (m.IsRead == false)
                     unread++;
             return unread;
+        }
+
+        private static DateTime latestLogin(Community_ASPNETUser user)
+        {
+            DateTime latest = user.LoginLogs.First().Timestamp;
+            foreach (var time in user.LoginLogs)
+            {
+                DateTime check = time.Timestamp;
+                if (DateTime.Compare(latest, check) < 0)
+            latest = check;
+
+            }
+
+            return latest;
         }
     }
 }

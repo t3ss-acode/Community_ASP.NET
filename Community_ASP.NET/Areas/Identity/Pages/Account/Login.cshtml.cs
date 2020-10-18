@@ -84,6 +84,10 @@ namespace Community_ASP.NET.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Community_ASPNETUser logged in.");
+                    
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    var userId = user.Id;
+                    UserBL.LogLogin(userId);
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

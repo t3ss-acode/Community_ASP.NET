@@ -36,6 +36,11 @@ namespace Community_ASP.NET.Data
                 .WithMany()
                 .HasForeignKey("SenderId")
                 .OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<Message>()
+                .Property(m => m.Timestamp)
+                .HasColumnType("datetime2")
+                .HasDefaultValueSql("getdate()")
+                .ValueGeneratedOnAddOrUpdate();
 
             builder.Entity<UserGroup>()
                 .HasKey(ug => new { ug.UserId, ug.GroupId });
@@ -53,6 +58,11 @@ namespace Community_ASP.NET.Data
                 .WithMany(u => u.LoginLogs)
                 .HasForeignKey(ll => ll.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<LoginLog>()
+                .Property(ll => ll.Timestamp)
+                .HasColumnType("datetime2")
+                .HasDefaultValueSql("getdate()")
+                .ValueGeneratedOnAdd();
         }
 
 

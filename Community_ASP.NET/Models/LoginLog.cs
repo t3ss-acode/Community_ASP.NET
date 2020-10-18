@@ -13,7 +13,7 @@ namespace Community_ASP.NET.Models
         public int Id { get; set; }
         public string UserId { get; set; }
         [Timestamp]
-        public byte[] RowVersion { get; set; }
+        public DateTime Timestamp { get; set; }
         public Community_ASPNETUser User { get; set; }
     }
 }

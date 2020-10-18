@@ -22,7 +22,7 @@ namespace Community_ASP.NET.Models
         [Required]
         public bool IsRead { get; set; }
         [Timestamp]
-        public byte[] RowVersion { get; set; }
+        public DateTime Timestamp { get; set; }
 
         [ForeignKey("SenderId")]
         [InverseProperty("Messages")]

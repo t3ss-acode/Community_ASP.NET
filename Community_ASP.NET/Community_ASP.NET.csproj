@@ -22,6 +22,18 @@
     <Compile Remove="Migrations\Community_ASPNET\20201016171301_receiverNameChanged.Designer.cs" />
     <Compile Remove="Migrations\Community_ASPNET\20201018111449_AddedConstraints.cs" />
     <Compile Remove="Migrations\Community_ASPNET\20201018111449_AddedConstraints.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018133227_datetimetest.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018133227_datetimetest.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018133724_datetimetest.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018133724_datetimetest.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018142715_datetimetest.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018142715_datetimetest.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018143229_datetimetest.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018143229_datetimetest.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018150151_ChangeTimestampTest.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018150151_ChangeTimestampTest.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018153421_ChangeDefault.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018153421_ChangeDefault.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

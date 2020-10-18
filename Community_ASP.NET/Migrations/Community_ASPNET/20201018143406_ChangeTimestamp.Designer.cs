@@ -4,14 +4,16 @@ using Community_ASP.NET.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Community_ASP.NET.Migrations.Community_ASPNET
 {
     [DbContext(typeof(Community_ASPNETContext))]
-    partial class Community_ASPNETContextModelSnapshot : ModelSnapshot
+    [Migration("20201018143406_ChangeTimestamp")]
+    partial class ChangeTimestamp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,9 +115,8 @@ namespace Community_ASP.NET.Migrations.Community_ASPNET
 
                     b.Property<DateTime>("Timestamp")
                         .IsConcurrencyToken()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -154,8 +155,7 @@ namespace Community_ASP.NET.Migrations.Community_ASPNET
                     b.Property<DateTime>("Timestamp")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
