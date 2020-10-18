@@ -8,16 +8,22 @@
     <p>Stuff to get: One specific message</p>
 </div>
 
-
-<div>
-    <h4>@Html.DisplayFor(model => model.Title)</h4>
-    <hr />
-    <dl class="row">
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Body)
-        </dd>
-        <td>
-            <a asp-action="Delete" asp-route-id="@Model.MessageId">Delete</a>
-        </td>
-    </dl>
-</div>
+@if (TempData["sErrMsg"] != null || Model == null)
+{
+    <p style="color:red;">@TempData["sErrMsg"]</p>
+}
+else
+{
+    <div>
+        <h4>@Html.DisplayFor(model => model.Title)</h4>
+        <hr />
+        <dl class="row">
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Body)
+            </dd>
+            <td>
+                <a asp-action="Delete" asp-route-id="@Model.MessageId">Delete</a>
+            </td>
+        </dl>
+    </div>
+}
