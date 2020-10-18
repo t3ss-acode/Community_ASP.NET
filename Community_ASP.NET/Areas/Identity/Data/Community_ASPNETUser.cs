@@ -15,5 +15,15 @@ namespace Community_ASP.NET.Areas.Identity.Data
         public ICollection<UserGroup> UserGroups { get; set; } = new Collection<UserGroup>();
         public ICollection<Message> Messages { get; set; } = new Collection<Message>();
         public ICollection<LoginLog> LoginLogs { get; set; }
+
+        public static DateTime convertToDateTime(byte[] time)
+        {
+            return DateTime.FromBinary(BitConverter.ToInt64(time, 0));
+        }
+
+        public static byte[] convertToByte(DateTime time)
+        {
+            return BitConverter.GetBytes(time.ToBinary());
+        }
     }
 }

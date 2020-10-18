@@ -29,9 +29,9 @@ namespace Community_ASP.NET.Models
             userInfo.Name = user.UserName + "name";
             userInfo.Email = user.Email;
             userInfo.LastLogin = DateTime.Now;  //todo: Change to proper timestamp
-            userInfo.NrOfLoginsLastMonth = 3;   //method for loginlog
-            userInfo.NrOfUnreadMessages = 40;   //method for messages
-            userInfo.NrOfDeletedMessages = 5;   //variable in user
+            userInfo.NrOfLoginsLastMonth = numberOfLogins(user);   //method for loginlog
+            userInfo.NrOfUnreadMessages = numberOfUnreadMsg(user);   //method for messages
+            userInfo.NrOfDeletedMessages = user.numberOfDeletedMessages;   //variable in user
 
             return userInfo;
         }
@@ -44,6 +44,24 @@ namespace Community_ASP.NET.Models
         public static void RemoveUser(Community_ASPNETUser user)
         {
             UserDAL.DeleteUser(user);
+        }
+
+        private static int numberOfLogins(Community_ASPNETUser user)
+        {
+            int logins = 0;
+            foreach (var l in user.LoginLogs)
+                if (Community_ASPNETUser.convertToDateTime(l.RowVersion).Month == DateTime.Now.Month)
+                    logins++;
+            return logins;
+        } 
+
+        private static int numberOfUnreadMsg(Community_ASPNETUser user)
+        {
+            int unread = 0;
+            foreach (var m in user.Messages)
+                if (m.IsRead == false)
+                    unread++;
+            return unread;
         }
     }
 }
