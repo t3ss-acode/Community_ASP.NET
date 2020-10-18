@@ -39,9 +39,15 @@ namespace Community_ASP.NET.Controllers
             {
                 return NotFound();
             }
-            var messageList = MessageBL.GetMessages(_userManager.GetUserId(User), id);
 
-            return View(messageList);
+            var messages = MessageBL.GetMessages(_userManager.GetUserId(User), id);
+
+            if (messages == null)
+            {
+                return NotFound();
+            }
+
+            return View(messages);
         }
 
         //[HttpPost]
@@ -53,11 +59,10 @@ namespace Community_ASP.NET.Controllers
                 return NotFound();
             }
             //det isRead in message
-            var messageList = MessageBL.GetMessage(id);
+            var message = MessageBL.GetMessage(id);
 
-            return View(messageList);
+            return View(message);
         }
-
 
         // GET: ReadController/Create
         public ActionResult Create()
@@ -69,27 +74,6 @@ namespace Community_ASP.NET.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ReadController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ReadController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
         {
             try
             {
