@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Community_ASP.NET.DAL;
@@ -32,18 +33,31 @@ namespace Community_ASP.NET.Controllers
         }
 
         // GET: ReadController Messages page
-        public ActionResult Messages()
+        public ActionResult Messages(string id)
         {
-            var messageList = MessageBL.GetMessages(_userManager.GetUserId(User), "2ffc89d2-59fa-4c3f-8059-2e6b43a9289c");
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var messageList = MessageBL.GetMessages(_userManager.GetUserId(User), id);
 
             return View(messageList);
         }
 
-        // GET: ReadController/Details/5
-        public ActionResult Details(int id)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Message(int id)
         {
-            return View();
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            //det isRead in message
+            var messageList = MessageBL.GetMessage(id);
+
+            return View(messageList);
         }
+
 
         // GET: ReadController/Create
         public ActionResult Create()

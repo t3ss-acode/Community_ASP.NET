@@ -45,6 +45,19 @@ namespace Community_ASP.NET.DAL
             }
         }
 
+        public static Community_ASPNETUser GetUserWithEmail(string email)
+        {
+            using (var db = new Community_ASPNETContext())
+            {
+                var user = db.Users
+                    .Include(u => u.UserGroups)
+                        .ThenInclude(g => g.Group)
+                    .Include(u => u.LoginLogs)
+                    .First(u => u.Email.Equals(email));
+                return user;
+            }
+        }
+
         public static bool UpdateUser(Community_ASPNETUser updatedUser)
         {
             try

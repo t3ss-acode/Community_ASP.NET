@@ -12,8 +12,9 @@ namespace Community_ASP.NET.ViewModel
         {
 
         }
-        public MessageInfo(string senderId, string receiverId, string title, string body, Boolean isRead, DateTime timestamp)
+        public MessageInfo(int id, string senderId, string receiverId, string title, string body, Boolean isRead, DateTime timestamp)
         {
+            MessageId = id;
             SenderId = senderId;
             ReceiverId = receiverId;
             Title = title;
@@ -22,6 +23,7 @@ namespace Community_ASP.NET.ViewModel
             Timestamp = timestamp;
         }
 
+        public int MessageId { get; set; }
         public string SenderId { get; set; }
         public string ReceiverId { get; set; }
         public string Title { get; set; }

@@ -2,23 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Community_ASP.NET.Models;
+using Community_ASP.NET.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Community_ASP.NET.Controllers
 {
     [Authorize]
     public class WriteController : Controller
     {
-        // GET: WriteController
-        public ActionResult Index()
+        private readonly UserManager<Community_ASPNETUser> _userManager;
+
+        public WriteController(UserManager<Community_ASPNETUser> userManager)
         {
-            return View();
+            _userManager = userManager;
         }
 
-        // GET: WriteController/Details/5
-        public ActionResult Details(int id)
+        // GET: WriteController
+        public ActionResult Index()
         {
             return View();
         }
@@ -32,58 +37,27 @@ namespace Community_ASP.NET.Controllers
         // POST: WriteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create([Bind("Title, Body")] MessageInfo message)
         {
+            //Add receiverId to Bind
+            message.ReceiverId = "2ffc89d2-59fa-4c3f-8059-2e6b43a9289c";
+            message.SenderId = _userManager.GetUserId(User);
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    MessageBL.AddMessage(message);
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            catch
+            catch (DbUpdateException /* ex */)
             {
-                return View();
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                    "Try again, and if the problem persists " +
+                    "see your system administrator.");
             }
-        }
-
-        // GET: WriteController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: WriteController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: WriteController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: WriteController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View(message);
         }
     }
 }
