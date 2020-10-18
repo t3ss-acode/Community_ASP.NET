@@ -80,6 +80,14 @@ namespace Community_ASP.NET.DAL
                 using (var db = new Community_ASPNETContext())
                 {
                     db.Remove(deletedMessage);
+                    foreach(var u in db.Users)
+                        if(u.Id == deletedMessage.ReciverId)
+                        {
+                            db.Remove(deletedMessage);
+                            u.numberOfDeletedMessages++;
+                            db.Update(u);
+                            break;
+                        }
                     db.SaveChanges();
                     return true;
                 }
