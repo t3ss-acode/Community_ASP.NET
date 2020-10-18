@@ -69,44 +69,31 @@ namespace Community_ASP.NET.DAL
 
         public static bool UpdateMessage(Message updatedMessage)
         {
-            try
+            using (var db = new Community_ASPNETContext())
             {
-                using (var db = new Community_ASPNETContext())
-                {
-                    db.Update(updatedMessage);
-                    db.SaveChanges();
-                    return true;
-                }
-            }
-            catch
-            {
-                return false;
+                db.Update(updatedMessage);
+                db.SaveChanges();
+                return true;
             }
         }
 
         public static bool DeleteMessage(Message deletedMessage)
         {
-            try
+            using (var db = new Community_ASPNETContext())
             {
-                using (var db = new Community_ASPNETContext())
-                {
-                    db.Remove(deletedMessage);
-                    foreach(var u in db.Users)
-                        if(u.Id == deletedMessage.ReciverId)
-                        {
-                            db.Remove(deletedMessage);
-                            u.numberOfDeletedMessages++;
-                            db.Update(u);
-                            break;
-                        }
-                    db.SaveChanges();
-                    return true;
-                }
+                db.Remove(deletedMessage);
+                foreach (var u in db.Users)
+                    if (u.Id == deletedMessage.ReciverId)
+                    {
+                        db.Remove(deletedMessage);
+                        u.numberOfDeletedMessages++;
+                        db.Update(u);
+                        break;
+                    }
+                db.SaveChanges();
+                return true;
             }
-            catch 
-            {
-                return false;
-            }
+
         }
     }
 }

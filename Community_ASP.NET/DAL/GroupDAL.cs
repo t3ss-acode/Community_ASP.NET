@@ -49,35 +49,21 @@ namespace Community_ASP.NET.DAL
 
         public static bool UpdateGroup(Group updatedGroup)
         {
-            try
+            using (var db = new Community_ASPNETContext())
             {
-                using (var db = new Community_ASPNETContext())
-                {
-                    db.Update(updatedGroup);
-                    db.SaveChanges();
-                    return true;
-                }
+                db.Update(updatedGroup);
+                db.SaveChanges();
+                return true;
             }
-            catch
-            {
-                return false;
-            }
-            
         }
 
         public static bool DeleteGroup(Group deletedGroup)
         {
-            try
+            using (var db = new Community_ASPNETContext())
             {
-                using (var db = new Community_ASPNETContext())
-                {
-                    db.Remove(deletedGroup);
-                    db.SaveChanges();
-                    return true;
-                }
-            }catch
-            {
-                return false;
+                db.Remove(deletedGroup);
+                db.SaveChanges();
+                return true;
             }
         }
     }

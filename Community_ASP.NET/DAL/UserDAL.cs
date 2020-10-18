@@ -60,35 +60,21 @@ namespace Community_ASP.NET.DAL
 
         public static bool UpdateUser(Community_ASPNETUser updatedUser)
         {
-            try
+            using (var db = new Community_ASPNETContext())
             {
-                using (var db = new Community_ASPNETContext())
-                {
-                    db.Update(updatedUser);
-                    db.SaveChanges();
-                    return true;
-                }
-            }
-            catch
-            {
-                return false;
+                db.Update(updatedUser);
+                db.SaveChanges();
+                return true;
             }
         }
 
         public static bool DeleteUser(Community_ASPNETUser deletedUser)
         {
-            try
+            using (var db = new Community_ASPNETContext())
             {
-                using (var db = new Community_ASPNETContext())
-                {
-                    db.Remove(deletedUser);
-                    db.SaveChanges();
-                    return true;
-                }
-            }
-            catch
-            {
-                return false;
+                db.Remove(deletedUser);
+                db.SaveChanges();
+                return true;
             }
         }
     }

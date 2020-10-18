@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Community_ASP.NET.Controllers
 {
@@ -39,7 +40,7 @@ namespace Community_ASP.NET.Controllers
             }
             catch
             {
-                return View();
+                return Redirect("~/");
             }
             
         }

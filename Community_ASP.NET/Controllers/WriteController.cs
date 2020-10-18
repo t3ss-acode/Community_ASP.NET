@@ -63,7 +63,7 @@ namespace Community_ASP.NET.Controllers
             }
             catch
             {
-                return View();
+                return Redirect("~/");
             }
 
         }

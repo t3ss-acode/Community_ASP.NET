@@ -29,14 +29,14 @@ namespace Community_ASP.NET.Controllers
         {
             try
             {
-            var userList = MessageBL.GetUsersOfMessages(_userManager.GetUserId(User));
+                var userList = MessageBL.GetUsersOfMessages(_userManager.GetUserId(User));
 
-            return View(userList);
+                return View(userList);
             }
             catch
             {
 
-                return View();
+                return Redirect("~/");
             }
 
         }
@@ -61,7 +61,7 @@ namespace Community_ASP.NET.Controllers
                 return View(messages);
             }catch
             {
-                return View();
+                return Redirect("~/");
             }
 
         }
@@ -83,7 +83,7 @@ namespace Community_ASP.NET.Controllers
             }
             catch
             {
-                return View();
+                return Redirect("~/");
             }
 
         }
