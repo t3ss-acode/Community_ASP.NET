@@ -8,24 +8,24 @@
     <h1 class="display-4">Welcome</h1>
     <p>Stuff to get: Messages from one user</p>
 </div>
+@if (TempData["sErrMsg"] != null || Model == null)
+{
+    <p style="color:red;">@TempData["sErrMsg"]</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsRead)
+                </th>
+            </tr>
+        </thead>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsRead)
-            </th>
-        </tr>
-    </thead>
-    @if (TempData["sErrMsg"] != null || Model == null)
-    {
-        <p style="color:red;">@TempData["sErrMsg"]</p>
-    }
-    else
-    {
         <tbody>
             @foreach (var item in Model)
             {
@@ -42,5 +42,6 @@
                 </tr>
             }
         </tbody>
-    }
+        
     </table>
+}

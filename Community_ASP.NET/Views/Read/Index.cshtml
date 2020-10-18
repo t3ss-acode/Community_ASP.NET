@@ -10,28 +10,33 @@
 </div>
 
 
+@if (TempData["sErrMsg"] != null || Model == null)
+{
+    <p style="color:red;">@TempData["sErrMsg"]</p>
+}
+else
+{
+    <table class="table">
+        <tbody>
+            @foreach (var item in Model.senders)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <a asp-action="Messages" asp-route-id="@item.Email">View messages</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<table class="table">
-    <tbody>
-        @foreach (var item in Model.senders)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    <a asp-action="Messages" asp-route-id="@item.Email">View messages</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<p>Total messages: @Html.DisplayFor(model => model.user.TotalMessages)</p>
-<p>Read messages: @Html.DisplayFor(model => model.user.NrOfReadMessages)</p>
-<p>Deleted messages: @Html.DisplayFor(model => model.user.NrOfDeletedMessages)</p>
-
+    <p>Total messages: @Html.DisplayFor(model => model.user.TotalMessages)</p>
+    <p>Read messages: @Html.DisplayFor(model => model.user.NrOfReadMessages)</p>
+    <p>Deleted messages: @Html.DisplayFor(model => model.user.NrOfDeletedMessages)</p>
+}
 
