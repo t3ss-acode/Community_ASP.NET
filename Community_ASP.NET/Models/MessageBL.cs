@@ -30,7 +30,7 @@ namespace Community_ASP.NET.Models
                 messageInfo.Title = m.Title;
                 messageInfo.Body = m.Body;
                 messageInfo.IsRead = m.IsRead;
-                //messageInfo.Timestamp = m.
+                messageInfo.Timestamp = DateTime.FromBinary(BitConverter.ToInt64(m.RowVersion,0));
 
                 messageInfoList.Add(messageInfo);
             }
