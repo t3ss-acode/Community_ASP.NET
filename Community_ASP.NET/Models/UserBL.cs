@@ -45,6 +45,12 @@ namespace Community_ASP.NET.Models
             UserDAL.DeleteUser(user);
         }
 
+        public static void LogLogin(Community_ASPNETUser user)
+        {
+            user.LoginLogs.Add(new LoginLog { User = user, UserId = user.Id });
+            UpdateUser(user);
+        }
+
         private static int numberOfLogins(Community_ASPNETUser user)
         {
             int logins = 0;
