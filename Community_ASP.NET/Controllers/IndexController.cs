@@ -38,14 +38,19 @@ namespace Community_ASP.NET.Controllers
 
                 return View(userInfoList);
             }
-            catch
+            catch (Exception e)
             {
-                return Redirect("~/");
+                TempData["sErrMsg"] = e.Message;
+                return View();
+                //return Redirect("~/");
             }
             
         }
         
-
+        public PartialViewResult ShowError(string sErrorMessage)
+        {
+            return PartialView("ErrorMessageView");
+        }
 
         // GET: IndexController/Details/5
         public ActionResult Details(int id)

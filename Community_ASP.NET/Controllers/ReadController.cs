@@ -33,10 +33,11 @@ namespace Community_ASP.NET.Controllers
 
                 return View(userList);
             }
-            catch
+            catch (Exception e)
             {
-
-                return Redirect("~/");
+                TempData["sErrMsg"] = e.Message;
+                return View();
+                //return Redirect("~/");
             }
 
         }
@@ -59,9 +60,12 @@ namespace Community_ASP.NET.Controllers
                 }
 
                 return View(messages);
-            }catch
+            }
+            catch (Exception e)
             {
-                return Redirect("~/");
+                TempData["sErrMsg"] = e.Message;
+                return View();
+                //return Redirect("~/");
             }
 
         }
@@ -81,9 +85,11 @@ namespace Community_ASP.NET.Controllers
 
                 return View(message);
             }
-            catch
+            catch (Exception e)
             {
-                return Redirect("~/");
+                TempData["sErrMsg"] = e.Message;
+                return View();
+                //return Redirect("~/");
             }
 
         }

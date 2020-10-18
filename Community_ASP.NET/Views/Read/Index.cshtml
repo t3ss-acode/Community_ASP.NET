@@ -22,22 +22,27 @@
             </th>
         </tr>
     </thead>
-    
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                <a asp-action="Messages" asp-route-id="@item.Email">Messages</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-        
-</table>
+    @if (TempData["sErrMsg"] != null || Model == null)
+    {
+        <p style="color:red;">@TempData["sErrMsg"]</p>
+    }
+    else
+    {
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <a asp-action="Messages" asp-route-id="@item.Email">Messages</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+    </table>

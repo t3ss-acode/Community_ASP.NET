@@ -9,7 +9,6 @@
     <p>Stuff to get: name, last login, number of logins last month, number fo unread messages</p>
 </div>
 
-
 <table class="table">
     <thead>
         <tr>
@@ -30,26 +29,36 @@
             </th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastLogin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NrOfLoginsLastMonth)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NrOfUnreadMessages)
-            </td>
-        </tr>
-        }
-    </tbody>
+
+    @if (TempData["sErrMsg"] != null || Model == null)
+    {
+        <p style="color:red;">@TempData["sErrMsg"]</p>
+    }
+    else
+    {
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastLogin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NrOfLoginsLastMonth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NrOfUnreadMessages)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+
 </table>
+
