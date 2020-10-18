@@ -10,8 +10,15 @@ namespace Community_ASP.NET.Models
 {
     public class MessageBL
     {
-        public static void AddMessage(Message message)
+        public static void AddMessage(MessageInfo messageInfo)
         {
+            var message = new Message();
+            message.Title = messageInfo.Title;
+            message.Body = messageInfo.Body;
+            message.SenderId = messageInfo.SenderId;
+            message.ReciverId = messageInfo.ReceiverId;
+            message.IsRead = false;
+
             MessageDAL.AddMessageToDB(message);
         }
 
