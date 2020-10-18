@@ -1,6 +1,6 @@
 ﻿using System;
-using Community_ASP.NET.Areas.Identity.Data;
 using Community_ASP.NET.Data;
+using Community_ASP.NET.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;

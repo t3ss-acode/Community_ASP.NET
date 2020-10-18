@@ -1,5 +1,4 @@
-﻿using Community_ASP.NET.Areas.Identity.Data;
-using Community_ASP.NET.DAL;
+﻿using Community_ASP.NET.DAL;
 using Community_ASP.NET.ViewModel;
 using System;
 using System.Collections.Generic;

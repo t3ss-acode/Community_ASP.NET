@@ -1,5 +1,4 @@
-﻿using Community_ASP.NET.Areas.Identity.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,9 +12,14 @@ namespace Community_ASP.NET.Models
         [Key]
         public int Id { get; set; }
         public string SenderId { get; set; }
+        [Required]
         public string ReciverId { get; set; }
+        [Required]
+        [MaxLength(50)]
         public string Title { get; set; }
+        [Required]
         public string Body { get; set; }
+        [Required]
         public bool IsRead { get; set; }
         [Timestamp]
         public byte[] RowVersion { get; set; }
