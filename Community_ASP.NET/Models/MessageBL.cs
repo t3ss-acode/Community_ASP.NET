@@ -33,7 +33,7 @@ namespace Community_ASP.NET.Models
             messageInfo.Title = m.Title;
             messageInfo.Body = m.Body;
             messageInfo.IsRead = m.IsRead;
-            messageInfo.Timestamp = Community_ASPNETUser.convertToDateTime(m.RowVersion);
+            messageInfo.Timestamp = m.Timestamp;
 
             return messageInfo;
         }
