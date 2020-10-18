@@ -40,6 +40,7 @@ namespace Community_ASP.NET.DAL
                     .Include(u => u.UserGroups)
                         .ThenInclude(g => g.Group)
                     .Include(u => u.LoginLogs)
+                    .Include(u => u.Messages)
                     .First(u => u.Id.Equals(userId));
                 return user;
             }
