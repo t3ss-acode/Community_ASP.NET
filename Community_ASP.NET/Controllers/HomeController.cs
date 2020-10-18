@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Community_ASP.NET.Models;
 using Community_ASP.NET.DAL;
-using Community_ASP.NET.Areas.Identity.Data;
 
 namespace Community_ASP.NET.Controllers
 {
@@ -22,38 +21,7 @@ namespace Community_ASP.NET.Controllers
 
         public IActionResult Index()
         {
-            //Add
-            //var messageG = new Message { SenderId = 3, ReciverId = 5, Title = "Test Group", Body = "This is a test group message." };
-            //MessageDAL.AddMessageToDB(messageG);
-
-            //Get
-            //var allMessages = MessageDAL.GetMessages();
-            //var userMessages = MessageDAL.GetUserMessages("4");
-            //foreach (var m in allMessages)
-            //    print(m);
-            //foreach (var m in userMessages)
-            //    print(m);
-            
-            //Update
-
-            //Delete 
-            
             return View();
-        }
-
-        private void print(Message m)
-        {
-            if(m.Reciver != null)
-                Debug.WriteLine("Id: " + m.Id + " Sender Id: " + m.Sender.Id + " Reciver Id" + m.Reciver.Id + " Title: " + m.Title + " Body: " + m.Body);
-           
-        }
-
-        private void print(Community_ASPNETUser u)
-        {
-            Debug.WriteLine("Id: " + u.Id + " Username: " + u.UserName + " Password: " + u.PasswordHash + " Email: " + u.Email);
-            if(u.UserGroups != null)
-                foreach (var g in u.UserGroups)
-                    Debug.WriteLine("GroupId: "+g.Group.Id+" GroupName: "+g.Group.Name);
         }
 
         public IActionResult Privacy()

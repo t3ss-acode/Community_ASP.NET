@@ -1,5 +1,4 @@
-﻿using Community_ASP.NET.Areas.Identity.Data;
-using Community_ASP.NET.DAL;
+﻿using Community_ASP.NET.DAL;
 using Community_ASP.NET.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -44,6 +43,12 @@ namespace Community_ASP.NET.Models
         public static void RemoveUser(Community_ASPNETUser user)
         {
             UserDAL.DeleteUser(user);
+        }
+
+        public static void LogLogin(Community_ASPNETUser user)
+        {
+            user.LoginLogs.Add(new LoginLog { User = user, UserId = user.Id });
+            UpdateUser(user);
         }
 
         private static int numberOfLogins(Community_ASPNETUser user)

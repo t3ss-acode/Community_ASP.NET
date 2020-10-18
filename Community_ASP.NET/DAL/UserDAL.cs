@@ -1,5 +1,5 @@
-﻿using Community_ASP.NET.Areas.Identity.Data;
-using Community_ASP.NET.Data;
+﻿using Community_ASP.NET.Data;
+using Community_ASP.NET.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

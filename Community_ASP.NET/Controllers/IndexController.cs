@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Community_ASP.NET.Areas.Identity.Data;
 using Community_ASP.NET.Data;
 using Community_ASP.NET.Models;
 using Community_ASP.NET.ViewModel;

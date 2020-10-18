@@ -10,6 +10,11 @@ namespace Community_ASP.NET.Models
     {
         public static void AddGroup(Group group)
         {
+            var groups = GetGroups();
+            foreach (var g in groups)
+                if (g.Name.Equals(group.Name))
+                    return;
+
             GroupDAL.AddGroupToDB(group);
         }
 

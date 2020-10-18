@@ -20,6 +20,8 @@
     <Compile Remove="Migrations\Community_ASPNET\20201015185120_AddLoginLog.Designer.cs" />
     <Compile Remove="Migrations\Community_ASPNET\20201016171301_receiverNameChanged.cs" />
     <Compile Remove="Migrations\Community_ASPNET\20201016171301_receiverNameChanged.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018111449_AddedConstraints.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201018111449_AddedConstraints.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
