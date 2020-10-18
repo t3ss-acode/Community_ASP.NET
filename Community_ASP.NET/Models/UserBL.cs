@@ -32,6 +32,8 @@ namespace Community_ASP.NET.Models
             userInfo.NrOfUnreadMessages = numberOfUnreadMsg(user);
             userInfo.NrOfDeletedMessages = user.numberOfDeletedMessages;
 
+            userInfo.NrOfReadMessages = userInfo.TotalMessages - userInfo.NrOfUnreadMessages;
+
             return userInfo;
         }
 

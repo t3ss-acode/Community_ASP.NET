@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,6 +21,11 @@ namespace Community_ASP.NET.ViewModel
             NrOfLoginsLastMonth = nrOflogins;
             TotalMessages = totalMessages;
             NrOfReadMessages = totalMessages - nrOfUnread;
+            Debug.WriteLine(NrOfReadMessages);
+            Debug.WriteLine(totalMessages);
+            Debug.WriteLine(nrOfUnread);
+            Debug.WriteLine("\n\n\n");
+
             NrOfUnreadMessages = nrOfUnread;
             NrOfDeletedMessages = nrOfDeleted;
         }

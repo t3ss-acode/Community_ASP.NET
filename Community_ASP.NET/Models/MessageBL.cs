@@ -26,13 +26,19 @@ namespace Community_ASP.NET.Models
         {
             var m = MessageDAL.GetMessage(id);
 
+            if (m.IsRead == false)
+            {
+                m.IsRead = true;
+                MessageDAL.UpdateMessage(m);
+            }
+
             var messageInfo = new MessageInfo();
             messageInfo.MessageId = m.Id;
             messageInfo.SenderId = m.SenderId;
             messageInfo.ReceiverId = m.ReciverId;
             messageInfo.Title = m.Title;
             messageInfo.Body = m.Body;
-            messageInfo.IsRead = m.IsRead;
+            messageInfo.IsRead = true;
             messageInfo.Timestamp = m.Timestamp;
 
             return messageInfo;
@@ -90,8 +96,9 @@ namespace Community_ASP.NET.Models
             MessageDAL.UpdateMessage(message);
         }
 
-        public static void RemoveMessage(Message message)
+        public static void RemoveMessage(int id)
         {
+            var message = MessageDAL.GetMessage(id);
             MessageDAL.DeleteMessage(message);
         }
     }

@@ -1,0 +1,15 @@
+﻿@model Community_ASP.NET.ViewModel.MessageInfo
+@{
+    ViewData["Title"] = "Read Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>You sure you want to delete?</p>
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="@Model.MessageId" />
+    <input type="submit" value="Delete" class="btn btn-danger" /> |
+    <a asp-action="Index">Back to List</a>
+</form>

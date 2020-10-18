@@ -1,5 +1,4 @@
 ﻿@model Community_ASP.NET.ViewModel.MessageInfo
-
 @{
     ViewData["Title"] = "Read Page";
 }
@@ -17,5 +16,8 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Body)
         </dd>
+        <td>
+            <a asp-action="Delete" asp-route-id="@Model.MessageId">Delete</a>
+        </td>
     </dl>
 </div>

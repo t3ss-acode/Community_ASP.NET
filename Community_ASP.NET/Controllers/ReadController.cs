@@ -81,6 +81,7 @@ namespace Community_ASP.NET.Controllers
                     return NotFound();
                 }
                 //det isRead in message
+                
                 var message = MessageBL.GetMessage(id);
 
                 return View(message);
@@ -92,40 +93,38 @@ namespace Community_ASP.NET.Controllers
 
         }
 
-        // GET: ReadController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ReadController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        // GET: ReadController/Delete
+        public ActionResult Delete(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (id == 0)
+                {
+                    return NotFound();
+                }
+                //det isRead in message
+                var message = MessageBL.GetMessage(id);
+
+                return View(message);
             }
             catch
             {
-                return View();
+                return Redirect("~/");
             }
         }
 
-        // GET: ReadController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ReadController/Delete/5
-        [HttpPost]
+        // POST: ReadController/Delete
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteConfirm(int id)
         {
+            if (id == 0)
+            {
+                return NotFound();
+            }
             try
             {
+                MessageBL.RemoveMessage(id);
                 return RedirectToAction(nameof(Index));
             }
             catch
