@@ -21,16 +21,16 @@ namespace Community_ASP.NET.Models
 
         public static UserInfo GetUser(string userId)
         {
-            
             Community_ASPNETUser user = UserDAL.GetUser(userId);
 
             var userInfo = new UserInfo();
-            userInfo.Name = user.UserName + "name";
+            userInfo.Name = user.name;
             userInfo.Email = user.Email;
-            userInfo.LastLogin = latestLogin(user);  //todo: Change to proper timestamp
-            userInfo.NrOfLoginsLastMonth = numberOfLogins(user);   //method for loginlog
-            userInfo.NrOfUnreadMessages = numberOfUnreadMsg(user);   //method for messages
-            userInfo.NrOfDeletedMessages = user.numberOfDeletedMessages;   //variable in user
+            userInfo.LastLogin = latestLogin(user);
+            userInfo.NrOfLoginsLastMonth = numberOfLogins(user);
+            userInfo.TotalMessages = numberOfMsg(user);
+            userInfo.NrOfUnreadMessages = numberOfUnreadMsg(user);
+            userInfo.NrOfDeletedMessages = user.numberOfDeletedMessages;
 
             return userInfo;
         }
@@ -59,7 +59,12 @@ namespace Community_ASP.NET.Models
                 if (l.Timestamp.Month == DateTime.Now.Month)
                     logins++;
             return logins;
-        } 
+        }
+
+        private static int numberOfMsg(Community_ASPNETUser user)
+        {
+            return user.Messages.Count();
+        }
 
         private static int numberOfUnreadMsg(Community_ASPNETUser user)
         {

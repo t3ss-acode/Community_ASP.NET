@@ -69,14 +69,15 @@ namespace Community_ASP.NET.Models
 
             foreach(Message m in messageList)
             {
-                userList.Add(m.Sender);
+                if (!userList.Contains(m.Sender))
+                    userList.Add(m.Sender);
             }
 
             var userInfoList = new List<UserInfo>();
             foreach(Community_ASPNETUser u in userList)
             {
                 var userInfo = new UserInfo();
-                userInfo.Name = u.UserName + "name";
+                userInfo.Name = u.name;
                 userInfo.Email = u.Email;
                 userInfoList.Add(userInfo);
             }

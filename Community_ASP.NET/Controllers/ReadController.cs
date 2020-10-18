@@ -30,8 +30,13 @@ namespace Community_ASP.NET.Controllers
             try
             {
                 var userList = MessageBL.GetUsersOfMessages(_userManager.GetUserId(User));
+                var user = UserBL.GetUser(_userManager.GetUserId(User));
 
-                return View(userList);
+                var userAndSenders = new UserAndSendersInfo();
+                userAndSenders.user = user;
+                userAndSenders.senders = userList;
+
+                return View(userAndSenders);
             }
             catch (Exception e)
             {
@@ -39,7 +44,6 @@ namespace Community_ASP.NET.Controllers
                 return View();
                 //return Redirect("~/");
             }
-
         }
 
         // GET: ReadController Messages page

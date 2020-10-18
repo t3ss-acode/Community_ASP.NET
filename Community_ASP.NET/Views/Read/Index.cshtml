@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Community_ASP.NET.ViewModel.UserInfo>
+﻿@model Community_ASP.NET.ViewModel.UserAndSendersInfo
 
 @{
     ViewData["Title"] = "Read Page";
@@ -12,37 +12,26 @@
 
 
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-        </tr>
-    </thead>
-    @if (TempData["sErrMsg"] != null || Model == null)
-    {
-        <p style="color:red;">@TempData["sErrMsg"]</p>
-    }
-    else
-    {
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        <a asp-action="Messages" asp-route-id="@item.Email">Messages</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    }
-    </table>
+    <tbody>
+        @foreach (var item in Model.senders)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a asp-action="Messages" asp-route-id="@item.Email">View messages</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>Total messages: @Html.DisplayFor(model => model.user.TotalMessages)</p>
+<p>Read messages: @Html.DisplayFor(model => model.user.NrOfReadMessages)</p>
+<p>Deleted messages: @Html.DisplayFor(model => model.user.NrOfDeletedMessages)</p>
+
+
