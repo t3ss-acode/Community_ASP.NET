@@ -27,41 +27,65 @@ namespace Community_ASP.NET.Controllers
         // GET: ReadController Index page
         public ActionResult Index()
         {
+            try
+            {
             var userList = MessageBL.GetUsersOfMessages(_userManager.GetUserId(User));
 
             return View(userList);
+            }
+            catch
+            {
+
+                return View();
+            }
+
         }
 
         // GET: ReadController Messages page
         public ActionResult Messages(string id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var messages = MessageBL.GetMessages(_userManager.GetUserId(User), id);
+
+                if (messages == null)
+                {
+                    return NotFound();
+                }
+
+                return View(messages);
+            }catch
+            {
+                return View();
             }
 
-            var messages = MessageBL.GetMessages(_userManager.GetUserId(User), id);
-
-            if (messages == null)
-            {
-                return NotFound();
-            }
-
-            return View(messages);
         }
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Message(int id)
         {
-            if (id == 0)
+            try
             {
-                return NotFound();
-            }
-            //det isRead in message
-            var message = MessageBL.GetMessage(id);
+                if (id == 0)
+                {
+                    return NotFound();
+                }
+                //det isRead in message
+                var message = MessageBL.GetMessage(id);
 
-            return View(message);
+                return View(message);
+            }
+            catch
+            {
+                return View();
+            }
+
         }
 
         // GET: ReadController/Create

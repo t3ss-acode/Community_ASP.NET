@@ -14,6 +14,7 @@ namespace Community_ASP.NET.Models
     {
         [Required]
         public int numberOfDeletedMessages { get; set; }
+        public string name { get; set; }
         public ICollection<UserGroup> UserGroups { get; set; } = new Collection<UserGroup>();
         public ICollection<Message> Messages { get; set; } = new Collection<Message>();
         public ICollection<LoginLog> LoginLogs { get; set; }

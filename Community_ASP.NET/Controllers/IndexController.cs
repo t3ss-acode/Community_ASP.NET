@@ -28,12 +28,20 @@ namespace Community_ASP.NET.Controllers
         
         public ActionResult Index()
         {
-            var userInfoList = new List<UserInfo>();
+            try
+            {
+                var userInfoList = new List<UserInfo>();
 
-            var user = UserBL.GetUser(_userManager.GetUserId(User));
-            userInfoList.Add(user);
+                var user = UserBL.GetUser(_userManager.GetUserId(User));
+                userInfoList.Add(user);
 
-            return View(userInfoList);
+                return View(userInfoList);
+            }
+            catch
+            {
+                return View();
+            }
+            
         }
         
 

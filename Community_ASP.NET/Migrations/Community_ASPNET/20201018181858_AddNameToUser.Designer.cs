@@ -4,14 +4,16 @@ using Community_ASP.NET.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Community_ASP.NET.Migrations.Community_ASPNET
 {
     [DbContext(typeof(Community_ASPNETContext))]
-    partial class Community_ASPNETContextModelSnapshot : ModelSnapshot
+    [Migration("20201018181858_AddNameToUser")]
+    partial class AddNameToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
