@@ -20,6 +20,18 @@ namespace Community_ASP.NET.DAL
             }
         }
 
+        public static Message GetMessage(int id)
+        {
+            using (var db = new Community_ASPNETContext())
+            {
+                var message = db.Messages
+                    .Include(m => m.Sender)
+                    .Include(m => m.Reciver)
+                    .First(m => m.Id.Equals(id));
+                return message;
+            }
+        }
+
         public static IEnumerable<Message> GetMessages()
         {
             using (var db = new Community_ASPNETContext())

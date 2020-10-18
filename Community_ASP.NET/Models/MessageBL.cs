@@ -16,15 +16,33 @@ namespace Community_ASP.NET.Models
             MessageDAL.AddMessageToDB(message);
         }
 
-        public static IEnumerable<MessageInfo> GetMessages(string userId, string senderId)
+        public static MessageInfo GetMessage(int id)
         {
-            var messageList = MessageDAL.GetSenderMessages(userId, senderId);
+            var m = MessageDAL.GetMessage(id);
+
+            var messageInfo = new MessageInfo();
+            messageInfo.MessageId = m.Id;
+            messageInfo.SenderId = m.SenderId;
+            messageInfo.ReceiverId = m.ReciverId;
+            messageInfo.Title = m.Title;
+            messageInfo.Body = m.Body;
+            messageInfo.IsRead = m.IsRead;
+            messageInfo.Timestamp = Community_ASPNETUser.convertToDateTime(m.RowVersion);
+
+            return messageInfo;
+        }
+
+        public static IEnumerable<MessageInfo> GetMessages(string userId, string senderEmail)
+        {
+            var sender = UserDAL.GetUserWithEmail(senderEmail);
+            var messageList = MessageDAL.GetSenderMessages(userId, sender.Id);
 
             var messageInfoList = new List<MessageInfo>();
 
             foreach (Message m in messageList)
             {
                 var messageInfo = new MessageInfo();
+                messageInfo.MessageId = m.Id;
                 messageInfo.SenderId = m.SenderId;
                 messageInfo.ReceiverId = m.ReciverId;
                 messageInfo.Title = m.Title;

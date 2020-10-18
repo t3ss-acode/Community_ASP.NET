@@ -16,13 +16,7 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Body)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SenderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReceiverId)
+                @Html.DisplayNameFor(model => model.IsRead)
             </th>
         </tr>
     </thead>
@@ -34,13 +28,10 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Body)
+                @Html.DisplayFor(modelItem => item.IsRead)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SenderId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReceiverId)
+                <a asp-action="Message" asp-route-id="@item.MessageId">Message</a>
             </td>
         </tr>
         }

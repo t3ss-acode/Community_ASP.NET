@@ -1,0 +1,21 @@
+﻿@model Community_ASP.NET.ViewModel.MessageInfo
+
+@{
+    ViewData["Title"] = "Read Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Stuff to get: One specific message</p>
+</div>
+
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Title)</h4>
+    <hr />
+    <dl class="row">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Body)
+        </dd>
+    </dl>
+</div>
