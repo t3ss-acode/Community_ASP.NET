@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Community_ASP.NET.Controllers
@@ -25,32 +26,44 @@ namespace Community_ASP.NET.Controllers
         // GET: WriteController
         public ActionResult Index()
         {
+            var list = new List<SelectListItem>();
+            foreach (var i in UserBL.GetUsers())
+            {
+                list.Add(new SelectListItem { Text = i.Email, Value = i.Email });
+            }
+            ViewBag.UserList = list;
             return View();
         }
 
         // GET: WriteController/Create
         public ActionResult Create()
         {
+            System.Diagnostics.Debug.WriteLine("in get create");
             return View();
         }
 
         // POST: WriteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("Title, Body")] MessageInfo message)
+        public ActionResult Create(String UserList, [Bind("Title, Body")] MessageInfo message)
         {
+            System.Diagnostics.Debug.WriteLine("in post create");
             try
             {
-                //Add receiverId to Bind
-                message.ReceiverId = "2ffc89d2-59fa-4c3f-8059-2e6b43a9289c";
+                message.ReceiverId = UserBL.GetUserIdString(UserList);
                 message.SenderId = _userManager.GetUserId(User);
                 try
                 {
+                    System.Diagnostics.Debug.WriteLine("Before modelState valid");
                     if (ModelState.IsValid)
                     {
                         MessageBL.AddMessage(message);
+                        var receiverName = UserBL.GetUserWithEmail(UserList).Name;
+                        //Display confirmation that a message was sent. To who and when
+                        TempData["custdetails"] = string.Format("Message sent to {0}, {1}", receiverName, DateTime.Now.ToString("HH:mm MM/dd/yyyy"));
                         return RedirectToAction(nameof(Index));
                     }
+                    System.Diagnostics.Debug.WriteLine("After modelState valid");
                 }
                 catch (DbUpdateException /* ex */)
                 {
@@ -59,12 +72,12 @@ namespace Community_ASP.NET.Controllers
                         "Try again, and if the problem persists " +
                         "see your system administrator.");
                 }
-                return View(message);
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 TempData["sErrMsg"] = e.Message;
-                return View();
+                return RedirectToAction(nameof(Index));
                 //return Redirect("~/");
             }
 
