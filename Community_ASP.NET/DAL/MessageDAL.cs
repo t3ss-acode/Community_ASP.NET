@@ -10,11 +10,14 @@ namespace Community_ASP.NET.DAL
 {
     public class MessageDAL
     {
-        public static void AddMessageToDB(Message messageToDB)
+        public static void AddMessageToDB(IEnumerable<Message> messageToDB)
         {
             using (var db = new Community_ASPNETContext())
             {
-                db.Add(messageToDB);
+                foreach (var m in messageToDB)
+                {
+                    db.Add(m);
+                }
                 db.SaveChanges();
             }
         }

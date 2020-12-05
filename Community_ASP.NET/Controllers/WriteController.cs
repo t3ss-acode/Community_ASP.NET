@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+//using System.Web.Mvc;
 using Community_ASP.NET.Models;
 using Community_ASP.NET.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Community_ASP.NET.Controllers
 {
@@ -16,6 +21,7 @@ namespace Community_ASP.NET.Controllers
     public class WriteController : Controller
     {
         private readonly UserManager<Community_ASPNETUser> _userManager;
+        //private List<SelectListItem> userlist;
 
         public WriteController(UserManager<Community_ASPNETUser> userManager)
         {
@@ -28,6 +34,25 @@ namespace Community_ASP.NET.Controllers
             return View();
         }
 
+        [HttpPost]
+        public JsonResult AutoComplete(string prefix)
+        {
+            try
+            {
+                List<UserInfo> usrList = (List<UserInfo>)UserBL.GetUsers();
+                var reciverList = (from N in usrList
+                                   where N.Email.StartsWith(prefix)
+                                   select new { N.Email });
+                return Json(reciverList);
+            }
+            catch (Exception e)
+            {
+                TempData["sErrMsg"] = e.Message;
+                return Json("Something unintended happend, try again.");
+                //return Redirect("~/");
+            }
+        }
+
         // GET: WriteController/Create
         public ActionResult Create()
         {
@@ -37,12 +62,11 @@ namespace Community_ASP.NET.Controllers
         // POST: WriteController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("Title, Body")] MessageInfo message)
+        public ActionResult Create([Bind("MessageInfo")] MessageViewModel mvm)
         {
             try
             {
-                //Add receiverId to Bind
-                message.ReceiverId = "2ffc89d2-59fa-4c3f-8059-2e6b43a9289c";
+                var message = mvm.MessageInfo;
                 message.SenderId = _userManager.GetUserId(User);
                 try
                 {

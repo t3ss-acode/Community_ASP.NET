@@ -14,15 +14,32 @@ namespace Community_ASP.NET.Models
             UserDAL.AddUserToDB(user);
         }
 
-        public static IEnumerable<Community_ASPNETUser> GetUsers()
+        public static IEnumerable<UserInfo> GetUsers()
         {
-            return UserDAL.GetUsers();
+            IEnumerable<Community_ASPNETUser> users = UserDAL.GetUsers();
+            List<UserInfo> userInfos = new List<UserInfo>();
+            foreach (var u in users)
+            {
+                var userInfo = new UserInfo();
+                userInfo.Name = u.name;
+                userInfo.Email = u.Email;
+                userInfo.LastLogin = latestLogin(u);
+                userInfo.NrOfLoginsLastMonth = numberOfLogins(u);
+                userInfo.TotalMessages = numberOfMsg(u);
+                userInfo.NrOfUnreadMessages = numberOfUnreadMsg(u);
+                userInfo.NrOfDeletedMessages = u.numberOfDeletedMessages;
+
+                userInfo.NrOfReadMessages = userInfo.TotalMessages - userInfo.NrOfUnreadMessages;
+
+                userInfos.Add(userInfo);
+            }
+            return userInfos;
         }
 
         public static UserInfo GetUser(string userId)
         {
             Community_ASPNETUser user = UserDAL.GetUser(userId);
-
+            
             var userInfo = new UserInfo();
             userInfo.Name = user.name;
             userInfo.Email = user.Email;
@@ -35,6 +52,11 @@ namespace Community_ASP.NET.Models
             userInfo.NrOfReadMessages = userInfo.TotalMessages - userInfo.NrOfUnreadMessages;
 
             return userInfo;
+        }
+
+        public static Community_ASPNETUser GetUserWithEmail(string userEmail)
+        {
+            return UserDAL.GetUserWithEmail(userEmail);
         }
 
         public static void UpdateUser(Community_ASPNETUser user)

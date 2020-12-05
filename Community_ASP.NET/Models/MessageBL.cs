@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Community_ASP.NET.Models
@@ -12,14 +13,27 @@ namespace Community_ASP.NET.Models
     {
         public static void AddMessage(MessageInfo messageInfo)
         {
-            var message = new Message();
-            message.Title = messageInfo.Title;
-            message.Body = messageInfo.Body;
-            message.SenderId = messageInfo.SenderId;
-            message.ReciverId = messageInfo.ReceiverId;
-            message.IsRead = false;
+            var messages = new List<Message>();
+            var recivers = messageInfo.ReceiverId.Split("; ");
 
-            MessageDAL.AddMessageToDB(message);
+            foreach (var r in recivers)
+            {
+                if (r.Equals(""))
+                    continue;
+                var reciver = UserBL.GetUserWithEmail(r).Id;
+                if (messageInfo.SenderId.Equals(reciver))
+                    continue;
+                var message = new Message();
+                message.Title = messageInfo.Title;
+                message.Body = messageInfo.Body;
+                message.SenderId = messageInfo.SenderId;
+                message.ReciverId = reciver;
+                message.IsRead = false;
+                messages.Add(message);
+            }
+            
+
+            MessageDAL.AddMessageToDB(messages);
         }
 
         public static MessageInfo GetMessage(int id)
@@ -46,7 +60,7 @@ namespace Community_ASP.NET.Models
 
         public static IEnumerable<MessageInfo> GetMessages(string userId, string senderEmail)
         {
-            var sender = UserDAL.GetUserWithEmail(senderEmail);
+            var sender = UserBL.GetUserWithEmail(senderEmail);
             var messageList = MessageDAL.GetSenderMessages(userId, sender.Id);
 
             var messageInfoList = new List<MessageInfo>();

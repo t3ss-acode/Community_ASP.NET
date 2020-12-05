@@ -1,45 +1,103 @@
-﻿@model Community_ASP.NET.ViewModel.MessageInfo
+﻿@model MessageViewModel//Community_ASP.NET.ViewModel.MessageInfo
 
 @{
     ViewData["Title"] = "Home Page";
 }
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function ($) {
+        $("#Email").autocomplete({
+            minLenght: 2,
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Write/AutoComplete",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: extractLast(request.term) },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.email,
+                                value: item.email
+                            };
+                        }))
+
+                    }
+                })
+            },
+            search: function () {
+                var term = extractLast(this.value);
+                if (term.length < 2) {
+                    return false;
+                }
+            },
+            focus: function () {
+                return false;
+            },
+            select: function (event, ui) {
+                var terms = split(this.value);
+                terms.pop();
+                terms.push(ui.item.value);
+                terms.push("");
+                this.value = terms.join("; ");
+                return false;
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+        function split(val) {
+            return val.split(/;\s*/);
+        }
+        function extractLast(term) {
+            return split(term).pop();
+        }
+    })
+</script>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Stuff to get: List of all possible recipients, title field, text field, reciept of sent message</p>
 </div>
 
-
-<h4>Message</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <!--
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID" />
-                -->
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Body" class="control-label"></label>
-                <input asp-for="Body" class="form-control" />
-                <span asp-validation-for="Body" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-@if (TempData["sErrMsg"] != null || Model == null)
+@if (TempData["sErrMsg"] != null)
 {
     <p style="color:red;">@TempData["sErrMsg"]</p>
 }
 else
 {
-
+    <h4>Message</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" autocomplete="off">
+                <!--
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ID" />
+                    -->
+                <div class="form-group">
+                    <label asp-for="MessageInfo.ReceiverId" class="control-label">Recipient</label>
+                    <input asp-for="MessageInfo.ReceiverId" class="form-control" id="Email" />
+                    <span asp-validation-for="MessageInfo.ReceiverId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MessageInfo.Title" class="control-label"></label>
+                    <input asp-for="MessageInfo.Title" class="form-control" />
+                    <span asp-validation-for="MessageInfo.Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MessageInfo.Body" class="control-label"></label>
+                    <input asp-for="MessageInfo.Body" class="form-control" />
+                    <span asp-validation-for="MessageInfo.Body" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
 }
