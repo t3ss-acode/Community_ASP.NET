@@ -64,40 +64,48 @@
     <p>Stuff to get: List of all possible recipients, title field, text field, reciept of sent message</p>
 </div>
 
-@if (TempData["sErrMsg"] != null)
+
+
+<h4>Message</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" autocomplete="off">
+            <div class="form-group">
+                <label asp-for="MessageInfo.ReceiverId" class="control-label">Recipient</label>
+                <input asp-for="MessageInfo.ReceiverId" class="form-control" id="Email" required/>
+                <span asp-validation-for="MessageInfo.ReceiverId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MessageInfo.Title" class="control-label"></label>
+                <input asp-for="MessageInfo.Title" class="form-control" required />
+                <span asp-validation-for="MessageInfo.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MessageInfo.Body" class="control-label"></label>
+                <input asp-for="MessageInfo.Body" class="form-control" required />
+                <span asp-validation-for="MessageInfo.Body" class="text-danger"></span>
+            </div>
+            <div class="form-group" onsubmit="">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @if (TempData["custdetails"] != null)
+    {
+
+        <p>@TempData["custdetails"]</p>
+
+    }
+</div>
+@if (TempData["sErrMsg"] != null || Model == null)
 {
     <p style="color:red;">@TempData["sErrMsg"]</p>
 }
 else
 {
-    <h4>Message</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Create" autocomplete="off">
-                <!--
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="ID" />
-                    -->
-                <div class="form-group">
-                    <label asp-for="MessageInfo.ReceiverId" class="control-label">Recipient</label>
-                    <input asp-for="MessageInfo.ReceiverId" class="form-control" id="Email" />
-                    <span asp-validation-for="MessageInfo.ReceiverId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="MessageInfo.Title" class="control-label"></label>
-                    <input asp-for="MessageInfo.Title" class="form-control" />
-                    <span asp-validation-for="MessageInfo.Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="MessageInfo.Body" class="control-label"></label>
-                    <input asp-for="MessageInfo.Body" class="form-control" />
-                    <span asp-validation-for="MessageInfo.Body" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
-    </div>
+
 }

@@ -74,8 +74,6 @@ namespace Community_ASP.NET.Controllers
 
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
         public ActionResult Message(int id)
         {
             try
@@ -84,8 +82,6 @@ namespace Community_ASP.NET.Controllers
                 {
                     return NotFound();
                 }
-                //det isRead in message
-                
                 var message = MessageBL.GetMessage(id);
 
                 return View(message);

@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-//using System.Web.Mvc;
 using Community_ASP.NET.Models;
 using Community_ASP.NET.ViewModel;
 using Microsoft.AspNetCore.Authorization;
@@ -56,6 +55,7 @@ namespace Community_ASP.NET.Controllers
         // GET: WriteController/Create
         public ActionResult Create()
         {
+            System.Diagnostics.Debug.WriteLine("in get create");
             return View();
         }
 
@@ -64,17 +64,22 @@ namespace Community_ASP.NET.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("MessageInfo")] MessageViewModel mvm)
         {
+            System.Diagnostics.Debug.WriteLine("in post create");
             try
             {
                 var message = mvm.MessageInfo;
                 message.SenderId = _userManager.GetUserId(User);
                 try
                 {
+                    System.Diagnostics.Debug.WriteLine("Before modelState valid");
                     if (ModelState.IsValid)
                     {
                         MessageBL.AddMessage(message);
+                        //Display confirmation that a message was sent. To who and when
+                        TempData["custdetails"] = string.Format("Message sent to \"{0}\", {1}", message.ReceiverId, DateTime.Now.ToString("HH:mm MM/dd/yyyy"));
                         return RedirectToAction(nameof(Index));
                     }
+                    System.Diagnostics.Debug.WriteLine("After modelState valid");
                 }
                 catch (DbUpdateException /* ex */)
                 {
@@ -83,12 +88,12 @@ namespace Community_ASP.NET.Controllers
                         "Try again, and if the problem persists " +
                         "see your system administrator.");
                 }
-                return View(message);
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception e)
             {
                 TempData["sErrMsg"] = e.Message;
-                return View();
+                return RedirectToAction(nameof(Index));
                 //return Redirect("~/");
             }
 

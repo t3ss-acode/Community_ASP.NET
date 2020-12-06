@@ -54,6 +54,33 @@ namespace Community_ASP.NET.Models
             return userInfo;
         }
 
+
+
+        public static String GetUserIdString(String email)
+        {
+            Community_ASPNETUser user = UserDAL.GetUserWithEmail(email);
+
+            return user.Id;
+        }
+
+        /*public static UserInfo GetUserWithEmail(string userEmail)
+        {
+            Community_ASPNETUser user = UserDAL.GetUserWithEmail(userEmail);
+
+            var userInfo = new UserInfo();
+            userInfo.Name = user.name;
+            userInfo.Email = user.Email;
+            userInfo.LastLogin = latestLogin(user);
+            userInfo.NrOfLoginsLastMonth = numberOfLogins(user);
+            userInfo.TotalMessages = numberOfMsg(user);
+            userInfo.NrOfUnreadMessages = numberOfUnreadMsg(user);
+            userInfo.NrOfDeletedMessages = user.numberOfDeletedMessages;
+
+            userInfo.NrOfReadMessages = userInfo.TotalMessages - userInfo.NrOfUnreadMessages;
+
+            return userInfo;
+        }*/
+
         public static Community_ASPNETUser GetUserWithEmail(string userEmail)
         {
             return UserDAL.GetUserWithEmail(userEmail);
