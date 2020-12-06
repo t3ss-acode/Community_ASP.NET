@@ -17,6 +17,6 @@ namespace Community_ASP.NET.Models
         public string name { get; set; }
         public ICollection<UserGroup> UserGroups { get; set; } = new Collection<UserGroup>();
         public ICollection<Message> Messages { get; set; } = new Collection<Message>();
-        public ICollection<LoginLog> LoginLogs { get; set; }
+        public ICollection<LoginLog> LoginLogs { get; set; } = new Collection<LoginLog>();
     }
 }

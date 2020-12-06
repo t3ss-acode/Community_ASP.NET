@@ -31,7 +31,7 @@ namespace Community_ASP.NET.Controllers
             {
                 var userList = MessageBL.GetUsersOfMessages(_userManager.GetUserId(User));
                 var user = UserBL.GetUser(_userManager.GetUserId(User));
-
+                
                 var userAndSenders = new UserAndSendersInfo();
                 userAndSenders.user = user;
                 userAndSenders.senders = userList;

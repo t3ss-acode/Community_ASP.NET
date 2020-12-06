@@ -20,7 +20,6 @@ namespace Community_ASP.NET.Controllers
     public class WriteController : Controller
     {
         private readonly UserManager<Community_ASPNETUser> _userManager;
-        //private List<SelectListItem> userlist;
 
         public WriteController(UserManager<Community_ASPNETUser> userManager)
         {
@@ -39,9 +38,15 @@ namespace Community_ASP.NET.Controllers
             try
             {
                 List<UserInfo> usrList = (List<UserInfo>)UserBL.GetUsers();
-                var reciverList = (from N in usrList
-                                   where N.Email.StartsWith(prefix)
-                                   select new { N.Email });
+                List<GroupInfo> grpList = (List<GroupInfo>)GroupBL.GetGroups();
+                prefix = prefix.ToLower();
+                var reciverUsrList = (from N in usrList
+                                   where N.Email.ToLower().StartsWith(prefix)
+                                   select new { Recipient = N.Email });
+                var reciverGrpList = (from N in grpList
+                                      where N.Name.ToLower().StartsWith(prefix)
+                                      select new { Recipient = N.Name });
+                var reciverList = reciverUsrList.Concat(reciverGrpList);
                 return Json(reciverList);
             }
             catch (Exception e)

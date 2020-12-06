@@ -10,7 +10,7 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
-        $("#Email").autocomplete({
+        $("#Recipient").autocomplete({
             minLenght: 2,
             source: function (request, response) {
                 $.ajax({
@@ -21,8 +21,8 @@
                     success: function (data) {
                         response($.map(data, function (item) {
                             return {
-                                label: item.email,
-                                value: item.email
+                                label: item.recipient,
+                                value: item.recipient
                             };
                         }))
 
@@ -73,7 +73,7 @@
         <form asp-action="Create" autocomplete="off">
             <div class="form-group">
                 <label asp-for="MessageInfo.ReceiverId" class="control-label">Recipient</label>
-                <input asp-for="MessageInfo.ReceiverId" class="form-control" id="Email" required/>
+                <input asp-for="MessageInfo.ReceiverId" class="form-control" id="Recipient" required/>
                 <span asp-validation-for="MessageInfo.ReceiverId" class="text-danger"></span>
             </div>
             <div class="form-group">

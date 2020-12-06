@@ -20,38 +20,14 @@ namespace Community_ASP.NET.Models
             List<UserInfo> userInfos = new List<UserInfo>();
             foreach (var u in users)
             {
-                var userInfo = new UserInfo();
-                userInfo.Name = u.name;
-                userInfo.Email = u.Email;
-                userInfo.LastLogin = latestLogin(u);
-                userInfo.NrOfLoginsLastMonth = numberOfLogins(u);
-                userInfo.TotalMessages = numberOfMsg(u);
-                userInfo.NrOfUnreadMessages = numberOfUnreadMsg(u);
-                userInfo.NrOfDeletedMessages = u.numberOfDeletedMessages;
-
-                userInfo.NrOfReadMessages = userInfo.TotalMessages - userInfo.NrOfUnreadMessages;
-
-                userInfos.Add(userInfo);
+                userInfos.Add(userToUserInfo(u));
             }
             return userInfos;
         }
 
         public static UserInfo GetUser(string userId)
         {
-            Community_ASPNETUser user = UserDAL.GetUser(userId);
-            
-            var userInfo = new UserInfo();
-            userInfo.Name = user.name;
-            userInfo.Email = user.Email;
-            userInfo.LastLogin = latestLogin(user);
-            userInfo.NrOfLoginsLastMonth = numberOfLogins(user);
-            userInfo.TotalMessages = numberOfMsg(user);
-            userInfo.NrOfUnreadMessages = numberOfUnreadMsg(user);
-            userInfo.NrOfDeletedMessages = user.numberOfDeletedMessages;
-
-            userInfo.NrOfReadMessages = userInfo.TotalMessages - userInfo.NrOfUnreadMessages;
-
-            return userInfo;
+            return userToUserInfo(UserDAL.GetUser(userId));
         }
 
 
@@ -63,27 +39,28 @@ namespace Community_ASP.NET.Models
             return user.Id;
         }
 
-        /*public static UserInfo GetUserWithEmail(string userEmail)
-        {
-            Community_ASPNETUser user = UserDAL.GetUserWithEmail(userEmail);
-
-            var userInfo = new UserInfo();
-            userInfo.Name = user.name;
-            userInfo.Email = user.Email;
-            userInfo.LastLogin = latestLogin(user);
-            userInfo.NrOfLoginsLastMonth = numberOfLogins(user);
-            userInfo.TotalMessages = numberOfMsg(user);
-            userInfo.NrOfUnreadMessages = numberOfUnreadMsg(user);
-            userInfo.NrOfDeletedMessages = user.numberOfDeletedMessages;
-
-            userInfo.NrOfReadMessages = userInfo.TotalMessages - userInfo.NrOfUnreadMessages;
-
-            return userInfo;
-        }*/
-
         public static Community_ASPNETUser GetUserWithEmail(string userEmail)
         {
             return UserDAL.GetUserWithEmail(userEmail);
+        }
+
+        public static void AddUserToGroup(UserInfo userInfo, GroupInfo groupInfo)
+        {
+            var user = GetUserWithEmail(userInfo.Email);
+            var ug = new UserGroup();
+            ug.GroupId = groupInfo.Id;
+            ug.UserId = user.Id;
+            UserGroupBL.AddUserGroup(ug);
+        }
+
+        public static void RemoveUserFromGroup(UserInfo userInfo, GroupInfo groupInfo)
+        {
+            var user = GetUserWithEmail(userInfo.Email);
+            var ug = user.UserGroups.ToList().Find(ug => ug.GroupId == groupInfo.Id);
+            UserGroupBL.RemoveUserGroup(ug);
+            var group = GroupBL.GetGroup(groupInfo.Id);
+            if (GroupBL.isEmpty(group))
+                GroupBL.RemoveGroup(group);
         }
 
         public static void UpdateUser(Community_ASPNETUser user)
@@ -101,6 +78,31 @@ namespace Community_ASP.NET.Models
             var user = UserDAL.GetUser(userId);
             user.LoginLogs.Add(new LoginLog { User = user, UserId = user.Id });
             UpdateUser(user);
+        }
+
+        private static UserInfo userToUserInfo(Community_ASPNETUser user)
+        {
+            var userInfo = new UserInfo();
+            userInfo.Name = user.name;
+            userInfo.Email = user.Email;
+            userInfo.LastLogin = latestLogin(user);
+            userInfo.NrOfLoginsLastMonth = numberOfLogins(user);
+            userInfo.TotalMessages = numberOfMsg(user);
+            userInfo.NrOfUnreadMessages = numberOfUnreadMsg(user);
+            userInfo.NrOfDeletedMessages = user.numberOfDeletedMessages;
+
+            var groups = new List<GroupInfo>();
+            foreach (var g in user.UserGroups)
+            {
+                var gi = new GroupInfo();
+                gi.Id = g.Group.Id;
+                gi.Name = g.Group.Name;
+            }
+            userInfo.groups = groups;
+
+            userInfo.NrOfReadMessages = userInfo.TotalMessages - userInfo.NrOfUnreadMessages;
+
+            return userInfo;
         }
 
         private static int numberOfLogins(Community_ASPNETUser user)

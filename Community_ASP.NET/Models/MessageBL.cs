@@ -15,23 +15,52 @@ namespace Community_ASP.NET.Models
         {
             var messages = new List<Message>();
             var recivers = messageInfo.ReceiverId.Split("; ");
+            var users = UserBL.GetUsers();
+            var groups = GroupBL.GetGroupsInternal();
 
             foreach (var r in recivers)
             {
                 if (r.Equals(""))
                     continue;
-                var reciver = UserBL.GetUserWithEmail(r).Id;
-                if (messageInfo.SenderId.Equals(reciver))
+                if (groups.ToList().Exists(ug => ug.UserGroups.ToList().Exists(g => g.Group.Name.Equals(r))))
+                {
+                    var currentG = groups.ToList().Find(g => g.Name.Equals(r));
+                    foreach (var rg in currentG.UserGroups)
+                    {
+                        var reciver = rg.UserId;
+                        if (messageInfo.SenderId.Equals(reciver))
+                            continue;
+                        if (messages.Exists(m => m.ReciverId.Equals(rg.UserId)))
+                            continue;
+                        var message = new Message();
+                        message.Title = messageInfo.Title;
+                        message.Body = messageInfo.Body;
+                        message.SenderId = messageInfo.SenderId;
+                        message.ReciverId = reciver;
+                        message.IsRead = false;
+                        messages.Add(message);
+                    }
+                }
+                else if (users.ToList().Exists(u => u.Email.Equals(r)))
+                {
+                    var reciver = UserBL.GetUserWithEmail(r).Id;
+                    if (messageInfo.SenderId.Equals(reciver))
+                        continue;
+                    if (messages.Exists(m => m.ReciverId.Equals(reciver)))
+                        continue;
+                    var message = new Message();
+                    message.Title = messageInfo.Title;
+                    message.Body = messageInfo.Body;
+                    message.SenderId = messageInfo.SenderId;
+                    message.ReciverId = reciver;
+                    message.IsRead = false;
+                    messages.Add(message);
+                }
+                else
+                {
                     continue;
-                var message = new Message();
-                message.Title = messageInfo.Title;
-                message.Body = messageInfo.Body;
-                message.SenderId = messageInfo.SenderId;
-                message.ReciverId = reciver;
-                message.IsRead = false;
-                messages.Add(message);
+                }                
             }
-            
 
             MessageDAL.AddMessageToDB(messages);
         }
