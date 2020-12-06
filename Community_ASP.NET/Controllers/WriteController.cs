@@ -32,6 +32,11 @@ namespace Community_ASP.NET.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Serches and returns every user or group that matches prefix
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <returns>List of matches convertet to Json</returns>
         [HttpPost]
         public JsonResult AutoComplete(string prefix)
         {
