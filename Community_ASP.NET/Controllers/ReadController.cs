@@ -52,16 +52,17 @@ namespace Community_ASP.NET.Controllers
             try
             {
                 if (id == null)
-                {
                     return NotFound();
-                }
 
                 var messages = MessageBL.GetMessages(_userManager.GetUserId(User), id);
+                System.Diagnostics.Debug.WriteLine("In readcontroller");
+                foreach (var m in messages.ToList())
+                {
+                    System.Diagnostics.Debug.WriteLine(m.IsRead);
+                }
 
                 if (messages == null)
-                {
                     return NotFound();
-                }
 
                 return View(messages);
             }
@@ -79,9 +80,7 @@ namespace Community_ASP.NET.Controllers
             try
             {
                 if (id == 0)
-                {
                     return NotFound();
-                }
                 var message = MessageBL.GetMessage(id);
 
                 return View(message);

@@ -69,19 +69,35 @@ namespace Community_ASP.NET.Models
 
         public static MessageInfo GetMessage(int id)
         {
-            return createMessageInfo(MessageDAL.GetMessage(id));
+            var m = MessageDAL.GetMessage(id);
+            if (m.IsRead == false)
+            {
+                m.IsRead = true;
+                MessageDAL.UpdateMessage(m);
+            }
+            return createMessageInfo(m);
         }
 
         public static IEnumerable<MessageInfo> GetMessages(string userId, string senderEmail)
         {
             var sender = UserBL.GetUserWithEmail(senderEmail);
             var messageList = MessageDAL.GetSenderMessages(userId, sender.Id);
+            System.Diagnostics.Debug.WriteLine("In MessageBL getMessages");
+            foreach (var m in messageList.ToList())
+            {
+                System.Diagnostics.Debug.WriteLine(m.IsRead);
+            }
 
             var messageInfoList = new List<MessageInfo>();
 
             foreach (Message m in messageList)
             {
                 messageInfoList.Add(createMessageInfo(m));
+            }
+            System.Diagnostics.Debug.WriteLine("In MessageBL getMessages message info");
+            foreach (var m in messageInfoList)
+            {
+                System.Diagnostics.Debug.WriteLine(m.IsRead);
             }
 
             return messageInfoList;
@@ -145,11 +161,6 @@ namespace Community_ASP.NET.Models
 
         private static MessageInfo createMessageInfo(Message m)
         {
-            if (m.IsRead == false)
-            {
-                m.IsRead = true;
-                MessageDAL.UpdateMessage(m);
-            }
             var messageInfo = new MessageInfo();
             messageInfo.MessageId = m.Id;
             messageInfo.SenderId = m.SenderId;
