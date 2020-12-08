@@ -15,12 +15,13 @@ namespace Community_ASP.NET.Models
         /// Checks if valid message and reciver
         /// </summary>
         /// <param name="messageInfo"></param>
-        public static void AddMessage(MessageInfo messageInfo)
+        public static Boolean AddMessage(MessageInfo messageInfo)
         {
             var messages = new List<Message>();
             var recivers = messageInfo.ReceiverId.Split("; ");
             var users = UserBL.GetUsers();
             var groups = GroupBL.GetGroupsInternal();
+
 
             foreach (var r in recivers)
             {
@@ -33,11 +34,11 @@ namespace Community_ASP.NET.Models
                     foreach (var rg in currentG.UserGroups)
                     {
                         var reciver = rg.UserId;
-                        if (messageInfo.SenderId.Equals(reciver))
+                        if (messageInfo.SenderId.Equals(reciver)) 
                             continue;
                         if (messages.Exists(m => m.ReciverId.Equals(rg.UserId)))
                             continue;
-                        var title = messageInfo.Title + " ["+rg.Group.Name+"]";
+                        var title = messageInfo.Title + " [" + rg.Group.Name + "]";
                         messages.Add(createMessage(messageInfo, reciver, title));
                     }
                 }
@@ -57,7 +58,12 @@ namespace Community_ASP.NET.Models
                 }
             }
 
+            //If threre are no recipients, return false
+            if(messages.Count == 0)
+                return false;
+            
             MessageDAL.AddMessageToDB(messages);
+            return true;
         }
 
 

@@ -84,9 +84,13 @@ namespace Community_ASP.NET.Controllers
                     System.Diagnostics.Debug.WriteLine("Before modelState valid");
                     if (ModelState.IsValid)
                     {
-                        MessageBL.AddMessage(message);
+                        var sent = MessageBL.AddMessage(message);
                         //Display confirmation that a message was sent. To who and when
-                        TempData["custdetails"] = string.Format("Message sent to \"{0}\", {1}", message.ReceiverId, DateTime.Now.ToString("HH:mm MM/dd/yyyy"));
+                        if(sent)
+                            TempData["custdetails"] = string.Format("Message sent to \"{0}\", {1}", message.ReceiverId, DateTime.Now.ToString("HH:mm MM/dd/yyyy"));
+                        else
+                            TempData["custdetails"] = string.Format("Unable to send message to \"{0}\", {1}", message.ReceiverId, DateTime.Now.ToString("HH:mm MM/dd/yyyy"));
+
                         return RedirectToAction(nameof(Index));
                     }
                     System.Diagnostics.Debug.WriteLine("After modelState valid");

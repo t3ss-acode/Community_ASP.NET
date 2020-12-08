@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Community_ASP.NET.ViewModel.GroupInfo>
+
+@{
+    ViewData["Title"] = "Read Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Stuff to put here: Existing groups with tick boxes to join. Create group with textbox to enter group name</p>
+</div>
+
+
+<h4>Groups</h4>
+
+<div>
+    <td>
+        <a asp-action="Create">Create Group</a>
+    </td>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                Join
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp-action="Join" asp-route-id="@item.Id">Join group</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div>
+    @if (TempData["custdetails"] != null)
+    {
+
+        <p>@TempData["custdetails"]</p>
+
+    }
+</div>
