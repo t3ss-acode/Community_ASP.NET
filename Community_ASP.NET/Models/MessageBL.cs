@@ -37,7 +37,8 @@ namespace Community_ASP.NET.Models
                             continue;
                         if (messages.Exists(m => m.ReciverId.Equals(rg.UserId)))
                             continue;
-                        messages.Add(createMessage(messageInfo, reciver));
+                        var title = messageInfo.Title + " ["+rg.Group.Name+"]";
+                        messages.Add(createMessage(messageInfo, reciver, title));
                     }
                 }
                 ///Checks if it's a user and it exits
@@ -118,6 +119,17 @@ namespace Community_ASP.NET.Models
         {
             var message = new Message();
             message.Title = messageInfo.Title;
+            message.Body = messageInfo.Body;
+            message.SenderId = messageInfo.SenderId;
+            message.ReciverId = reciver;
+            message.IsRead = false;
+            return message;
+        }
+
+        private static Message createMessage(MessageInfo messageInfo, string reciver, string title)
+        {
+            var message = new Message();
+            message.Title = title;
             message.Body = messageInfo.Body;
             message.SenderId = messageInfo.SenderId;
             message.ReciverId = reciver;
