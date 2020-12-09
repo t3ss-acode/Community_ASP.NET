@@ -1,0 +1,16 @@
+﻿@model Community_ASP.NET.ViewModel.GroupInfo
+@{
+    ViewData["Title"] = "Leave Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Leave @Model.Name? </p>
+</div>
+
+
+<form asp-action="Leave">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Leave" /> |
+    <a asp-action="Index">Back to List</a>
+</form>

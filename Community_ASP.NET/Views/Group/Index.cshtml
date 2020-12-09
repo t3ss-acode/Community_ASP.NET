@@ -10,6 +10,10 @@
 </div>
 
 
+@if (TempData["sErrMsg"] != null || Model == null)
+{
+    <p style="color:red;">@TempData["sErrMsg"]</p>
+}
 <h4>Groups</h4>
 
 <div>
@@ -33,14 +37,21 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Join" asp-route-id="@item.Id">Join group</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @if (!item.Joined)
+                    {
+                        <a asp-action="Join" asp-route-id="@item.Id">Join group</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Leave" asp-route-id="@item.Id">Leave group</a>
+                    }
+                </td>
+            </tr>
         }
     </tbody>
 </table>

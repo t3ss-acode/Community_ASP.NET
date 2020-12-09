@@ -25,6 +25,7 @@ namespace Community_ASP.NET.ViewModel
 
         public string Name { get; set; }
         public int Id { get; set; }
+        public Boolean Joined { get; set; }
 
     }
 }
