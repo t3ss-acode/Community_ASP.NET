@@ -23,6 +23,7 @@ namespace Community_ASP.NET.Models
         public static IEnumerable<GroupInfo> GetGroups()
         {
             var grpList = GroupDAL.GetGroups();
+
             var groups = new List<GroupInfo>();
             foreach (var g in grpList)
             {
@@ -32,6 +33,35 @@ namespace Community_ASP.NET.Models
 
                 groups.Add(tmp);
             }
+            return groups;
+        }
+
+        public static IEnumerable<GroupInfo> GetGroupsToDisplay(String id)
+        {
+            var grpList = GroupDAL.GetGroups();
+            var groups = new List<GroupInfo>();
+            var joined = false;
+
+            foreach (var g in grpList)
+            {
+                foreach (var userG in g.UserGroups)
+                {
+                    if(userG.UserId.Equals(id))
+                    {
+                        joined = true;
+                        break;
+                    }
+                }
+                var tmp = new GroupInfo();
+                tmp.Name = g.Name;
+                tmp.Id = g.Id;
+                tmp.Joined = joined;
+
+                groups.Add(tmp);
+                joined = false;
+            }
+
+            System.Diagnostics.Debug.WriteLine(groups.ToString());
             return groups;
         }
 

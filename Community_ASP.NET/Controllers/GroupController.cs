@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Community_ASP.NET.Models;
 using Community_ASP.NET.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Community_ASP.NET.Controllers
 {
+    [Authorize]
     public class GroupController : Controller
     {
         private readonly UserManager<Community_ASPNETUser> _userManager;
@@ -24,7 +26,7 @@ namespace Community_ASP.NET.Controllers
         {
             try
             {
-                return View(GroupBL.GetGroups());
+                return View(GroupBL.GetGroupsToDisplay(_userManager.GetUserId(User)));
             }
             catch (Exception e)
             {
@@ -84,7 +86,7 @@ namespace Community_ASP.NET.Controllers
                 }
                 //det isRead in message
                 var group = GroupBL.GetGroup(id);
-                System.Diagnostics.Debug.WriteLine(group.Id);
+                
                 return View(group);
             }
             catch
@@ -127,10 +129,63 @@ namespace Community_ASP.NET.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: GroupController/join
+        public ActionResult Leave(int id)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    return NotFound();
+                }
+                //det isRead in message
+                var group = GroupBL.GetGroup(id);
+
+                return View(group);
+            }
+            catch
+            {
+                return Redirect("~/");
+            }
+        }
 
 
-    
+        // POST: WriteController/Create
+        [HttpPost, ActionName("Leave")]
+        [ValidateAntiForgeryToken]
+        public ActionResult LeaveConfirm([Bind("Id")] GroupInfo group)
+        {
+            System.Diagnostics.Debug.WriteLine("in post create");
+            try
+            {
+                //Check if theyre already apart of the group
+                System.Diagnostics.Debug.WriteLine("Before modelState valid");
+                if (ModelState.IsValid)
+                {
+                    var userGroup = new UserGroup();
+                    userGroup.GroupId = group.Id;
+                    userGroup.UserId = _userManager.GetUserId(User);
+                    UserGroupBL.RemoveUserGroup(userGroup);
 
 
+                    return RedirectToAction(nameof(Index));
+                }
+                System.Diagnostics.Debug.WriteLine("After modelState valid");
+            }
+            catch (DbUpdateException /* ex */)
+            {
+                //Log the error (uncomment ex variable name and write a log.
+                ModelState.AddModelError("", "Unable to save changes. " +
+                    "Try again, and if the problem persists " +
+                    "see your system administrator.");
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public PartialViewResult ShowError(string sErrorMessage)
+        {
+            return PartialView("ErrorMessageView");
+        }
     }
 }
