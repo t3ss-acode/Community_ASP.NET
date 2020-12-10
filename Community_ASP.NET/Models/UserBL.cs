@@ -30,7 +30,10 @@ namespace Community_ASP.NET.Models
             return userToUserInfo(UserDAL.GetUser(userId));
         }
 
-
+        internal static Community_ASPNETUser GetUserInternal(string userId)
+        {
+            return UserDAL.GetUser(userId);
+        }
 
         public static String GetUserIdString(String email)
         {
@@ -98,7 +101,7 @@ namespace Community_ASP.NET.Models
                 gi.Id = g.Group.Id;
                 gi.Name = g.Group.Name;
             }
-            userInfo.groups = groups;
+            userInfo.Groups = groups;
 
             userInfo.NrOfReadMessages = userInfo.TotalMessages - userInfo.NrOfUnreadMessages;
 

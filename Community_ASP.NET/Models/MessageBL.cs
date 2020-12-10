@@ -21,25 +21,28 @@ namespace Community_ASP.NET.Models
             var recivers = messageInfo.ReceiverId.Split("; ");
             var users = UserBL.GetUsers();
             var groups = GroupBL.GetGroupsInternal();
-
+            recivers = recivers.Distinct().ToArray();
 
             foreach (var r in recivers)
             {
+                //recivers = recivers.Distinct().ToList();
                 if (r.Equals(""))
                     continue;
                 ///Check if it's a group and it exists
                 if (groups.ToList().Exists(ug => ug.UserGroups.ToList().Exists(g => g.Group.Name.Equals(r))))
                 {
                     var currentG = groups.ToList().Find(g => g.Name.Equals(r));
+                    var sender = UserBL.GetUser(messageInfo.SenderId);
                     foreach (var rg in currentG.UserGroups)
                     {
                         var reciver = rg.UserId;
                         if (messageInfo.SenderId.Equals(reciver)) 
                             continue;
-                        if (messages.Exists(m => m.ReciverId.Equals(rg.UserId)))
-                            continue;
-                        var title = messageInfo.Title + " [" + rg.Group.Name + "]";
-                        messages.Add(createMessage(messageInfo, reciver, title));
+                        //if (messages.Exists(m => m.ReciverId.Equals(rg.UserId)))
+                            //continue;
+                        
+                        var title = messageInfo.Title + " [" + sender.Email + "]";
+                        messages.Add(createMessage(messageInfo, reciver, title,currentG));
                     }
                 }
                 ///Checks if it's a user and it exits
@@ -78,10 +81,20 @@ namespace Community_ASP.NET.Models
             return createMessageInfo(m);
         }
 
-        public static IEnumerable<MessageInfo> GetMessages(string userId, string senderEmail)
+        public static IEnumerable<MessageInfo> GetMessages(string userId, string senderId)
         {
-            var sender = UserBL.GetUserWithEmail(senderEmail);
-            var messageList = MessageDAL.GetSenderMessages(userId, sender.Id);
+            IEnumerable<Message> messageList;
+            if (!UserBL.GetUsers().ToList().Exists(u => u.Email == senderId))
+            {
+                var sender = GroupBL.getGroupInternal(senderId);
+                messageList = MessageDAL.GetSenderGroupMessages(userId,sender.Id);
+            }
+            else 
+            {
+                var sender = UserBL.GetUserWithEmail(senderId);
+                messageList = MessageDAL.GetSenderMessages(userId, sender.Id).ToList().FindAll(m => m.Group == null);
+            }
+
             System.Diagnostics.Debug.WriteLine("In MessageBL getMessages");
             foreach (var m in messageList.ToList())
             {
@@ -126,6 +139,36 @@ namespace Community_ASP.NET.Models
             return userInfoList;
         }
 
+        public static IEnumerable<UserAndSendersInfo.Sender> GetSendersOfMessages(string id)
+        {
+            var userList = MessageDAL.GetUserMessages(id);
+            var user = UserBL.GetUserInternal(id);
+            var grpList = MessageDAL.GetGroupMessages(id);
+            var senderList = new List<UserAndSendersInfo.Sender>();
+
+            foreach(var i in userList)
+            {
+                if (i.Group == null)
+                {
+                    if (!senderList.Exists(s => s.SenderId.Equals(i.Sender.Email)))
+                    {
+                        var sender = new UserAndSendersInfo.Sender();
+                        sender.ExtraInfo = i.Sender.name;
+                        sender.SenderId = i.Sender.Email;
+                        senderList.Add(sender);
+                    }
+                }
+                else if (!senderList.Exists(s => s.SenderId.Equals(i.Group.Name)))
+                {
+                    var sender = new UserAndSendersInfo.Sender();
+                    sender.ExtraInfo = i.Sender.Email;
+                    sender.SenderId = i.Group.Name;
+                    senderList.Add(sender);
+                }
+            }
+            return senderList;
+        }
+
         public static void UpdateMessage(Message message)
         {
             MessageDAL.UpdateMessage(message);
@@ -148,7 +191,7 @@ namespace Community_ASP.NET.Models
             return message;
         }
 
-        private static Message createMessage(MessageInfo messageInfo, string reciver, string title)
+        private static Message createMessage(MessageInfo messageInfo, string reciver, string title, Group group)
         {
             var message = new Message();
             message.Title = title;
@@ -156,6 +199,7 @@ namespace Community_ASP.NET.Models
             message.SenderId = messageInfo.SenderId;
             message.ReciverId = reciver;
             message.IsRead = false;
+            message.GroupId = group.Id;
             return message;
         }
 
@@ -163,7 +207,7 @@ namespace Community_ASP.NET.Models
         {
             var messageInfo = new MessageInfo();
             messageInfo.MessageId = m.Id;
-            messageInfo.SenderId = m.SenderId;
+            messageInfo.SenderId = m.GetSender();
             messageInfo.ReceiverId = m.ReciverId;
             messageInfo.Title = m.Title;
             messageInfo.Body = m.Body;

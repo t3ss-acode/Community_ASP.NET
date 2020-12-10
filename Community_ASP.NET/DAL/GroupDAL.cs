@@ -25,7 +25,6 @@ namespace Community_ASP.NET.DAL
             using (var db = new Community_ASPNETContext())
             {
                 var groups = db.Groups
-                    .Include(g => g.Messages)
                     .Include(g => g.UserGroups)
                         .ThenInclude(u => u.User)
                     .OrderBy(g => g.Id);
@@ -39,10 +38,21 @@ namespace Community_ASP.NET.DAL
             using (var db = new Community_ASPNETContext())
             {
                 var group = db.Groups
-                    .Include(g => g.Messages)
                     .Include(g => g.UserGroups)
                         .ThenInclude(u => u.User)
                     .First(g => g.Id == id);
+                return group;
+            }
+        }
+
+        public static Group GetGroup(string name)
+        {
+            using (var db = new Community_ASPNETContext())
+            {
+                var group = db.Groups
+                    .Include(g => g.UserGroups)
+                        .ThenInclude(u => u.User)
+                    .First(g => g.Name == name);
                 return group;
             }
         }

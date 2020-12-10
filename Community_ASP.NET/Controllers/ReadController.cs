@@ -29,12 +29,12 @@ namespace Community_ASP.NET.Controllers
         {
             try
             {
-                var userList = MessageBL.GetUsersOfMessages(_userManager.GetUserId(User));
+                var senderList = MessageBL.GetSendersOfMessages(_userManager.GetUserId(User));
                 var user = UserBL.GetUser(_userManager.GetUserId(User));
                 
                 var userAndSenders = new UserAndSendersInfo();
                 userAndSenders.user = user;
-                userAndSenders.senders = userList;
+                userAndSenders.senders = senderList;
 
                 return View(userAndSenders);
             }

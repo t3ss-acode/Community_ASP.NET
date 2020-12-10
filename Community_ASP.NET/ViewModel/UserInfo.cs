@@ -38,6 +38,6 @@ namespace Community_ASP.NET.ViewModel
         public int NrOfReadMessages { get; set; }
         public int NrOfUnreadMessages { get; set; }
         public int NrOfDeletedMessages { get; set; }
-        public IEnumerable<GroupInfo> groups { get; set; }
+        public IEnumerable<GroupInfo> Groups { get; set; }
     }
 }

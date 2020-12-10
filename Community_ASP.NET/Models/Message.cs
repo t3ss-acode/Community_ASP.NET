@@ -23,11 +23,21 @@ namespace Community_ASP.NET.Models
         public bool IsRead { get; set; }
         [Timestamp]
         public DateTime Timestamp { get; set; }
+        public int? GroupId { get; set; }
 
         [ForeignKey("SenderId")]
         [InverseProperty("Messages")]
         public Community_ASPNETUser Sender { get; set; }
         [ForeignKey("ReciverId")]
         public Community_ASPNETUser Reciver { get; set; }
+        [ForeignKey("GroupId")]
+        public Group Group { get; set; }
+
+        public string GetSender()
+        {
+            if (Group == null)
+                return SenderId;
+            return Group.Name;
+        } 
     }
 }

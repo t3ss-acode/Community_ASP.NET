@@ -49,6 +49,11 @@ namespace Community_ASP.NET.Models
             return groupInfo;
         }
 
+        internal static Group getGroupInternal(string name)
+        {
+            return GroupDAL.GetGroup(name);
+        }
+
         public static void UpdateGroup(GroupInfo groupInfo)
         {
             var grp = GetGroup(groupInfo);

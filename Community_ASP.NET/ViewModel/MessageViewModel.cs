@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Community_ASP.NET.Models
+namespace Community_ASP.NET.ViewModel
 {
     public class MessageViewModel
     {

@@ -29,6 +29,7 @@ namespace Community_ASP.NET.DAL
                 var message = db.Messages
                     .Include(m => m.Sender)
                     .Include(m => m.Reciver)
+                    .Include(m => m.Group)
                     .First(m => m.Id.Equals(id));
                 return message;
             }
@@ -41,6 +42,7 @@ namespace Community_ASP.NET.DAL
                 var messages = db.Messages
                     .Include(m => m.Sender)
                     .Include(m => m.Reciver)
+                    .Include(m => m.Group)
                     .OrderBy(m => m.Id);
                 return messages.ToArray();
             }
@@ -53,7 +55,21 @@ namespace Community_ASP.NET.DAL
                 var message = db.Messages
                     .Include(m => m.Sender)
                     .Include(m => m.Reciver)
+                    .Include(m => m.Group)
                     .Where(m => m.ReciverId.Equals(userId));
+                return message.ToArray();
+            }
+        }
+
+        public static IEnumerable<Message> GetGroupMessages(string groupId)
+        {
+            using (var db = new Community_ASPNETContext())
+            {
+                var message = db.Messages
+                    .Include(m => m.Sender)
+                    .Include(m => m.Reciver)
+                    .Include(m => m.Group)
+                    .Where(m => m.GroupId.Equals(groupId));
                 return message.ToArray();
             }
         }
@@ -65,7 +81,21 @@ namespace Community_ASP.NET.DAL
                 var message = db.Messages
                     .Include(m => m.Sender)
                     .Include(m => m.Reciver)
+                    .Include(m => m.Group)
                     .Where(m => m.ReciverId.Equals(userId) & m.SenderId.Equals(senderId));
+                return message.ToArray();
+            }
+        }
+
+        public static IEnumerable<Message> GetSenderGroupMessages(string userId, int senderId)
+        {
+            using (var db = new Community_ASPNETContext())
+            {
+                var message = db.Messages
+                    .Include(m => m.Sender)
+                    .Include(m => m.Reciver)
+                    .Include(m => m.Group)
+                    .Where(m => m.ReciverId.Equals(userId) & m.GroupId.Equals(senderId));
                 return message.ToArray();
             }
         }

@@ -34,6 +34,26 @@
     <Compile Remove="Migrations\Community_ASPNET\20201018150151_ChangeTimestampTest.Designer.cs" />
     <Compile Remove="Migrations\Community_ASPNET\20201018153421_ChangeDefault.cs" />
     <Compile Remove="Migrations\Community_ASPNET\20201018153421_ChangeDefault.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209143122_RemoveMsgFromGroup.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209143122_RemoveMsgFromGroup.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209152317_AddedGroupToMsg.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209152317_AddedGroupToMsg.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209155016_AddedGroupToMsg.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209155016_AddedGroupToMsg.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209155302_AddedGroupToMsg.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209155302_AddedGroupToMsg.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209155725_AddedGroupToMsg.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209155725_AddedGroupToMsg.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209160549_test.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209160549_test.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209161756_GroupToMsg.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209161756_GroupToMsg.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209162425_GroupToMsg.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209162425_GroupToMsg.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209162545_GroupToMsg.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209162545_GroupToMsg.Designer.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209162627_GroupToMsg.cs" />
+    <Compile Remove="Migrations\Community_ASPNET\20201209162627_GroupToMsg.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

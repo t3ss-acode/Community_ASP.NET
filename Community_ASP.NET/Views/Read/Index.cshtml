@@ -22,13 +22,13 @@ else
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.DisplayFor(modelItem => item.ExtraInfo)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Email)
+                        @Html.DisplayFor(modelItem => item.SenderId)
                     </td>
                     <td>
-                        <a asp-action="Messages" asp-route-id="@item.Email">View messages</a>
+                        <a asp-action="Messages" asp-route-id="@item.SenderId">View messages</a>
                     </td>
                 </tr>
             }

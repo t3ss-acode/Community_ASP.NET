@@ -95,9 +95,10 @@ namespace Community_ASP.NET.Controllers
                     }
                     System.Diagnostics.Debug.WriteLine("After modelState valid");
                 }
-                catch (DbUpdateException /* ex */)
+                catch (DbUpdateException ex)
                 {
                     //Log the error (uncomment ex variable name and write a log.
+                    Debug.WriteLine(ex.StackTrace);
                     ModelState.AddModelError("", "Unable to save changes. " +
                         "Try again, and if the problem persists " +
                         "see your system administrator.");
@@ -106,6 +107,7 @@ namespace Community_ASP.NET.Controllers
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.StackTrace);
                 TempData["sErrMsg"] = e.Message;
                 return RedirectToAction(nameof(Index));
                 //return Redirect("~/");
