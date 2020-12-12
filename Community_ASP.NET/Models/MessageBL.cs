@@ -81,6 +81,7 @@ namespace Community_ASP.NET.Models
             return createMessageInfo(m);
         }
 
+
         public static IEnumerable<MessageInfo> GetMessages(string userId, string senderId)
         {
             IEnumerable<Message> messageList;
@@ -95,11 +96,6 @@ namespace Community_ASP.NET.Models
                 messageList = MessageDAL.GetSenderMessages(userId, sender.Id).ToList().FindAll(m => m.Group == null);
             }
 
-            System.Diagnostics.Debug.WriteLine("In MessageBL getMessages");
-            foreach (var m in messageList.ToList())
-            {
-                System.Diagnostics.Debug.WriteLine(m.IsRead);
-            }
 
             var messageInfoList = new List<MessageInfo>();
 
@@ -107,14 +103,10 @@ namespace Community_ASP.NET.Models
             {
                 messageInfoList.Add(createMessageInfo(m));
             }
-            System.Diagnostics.Debug.WriteLine("In MessageBL getMessages message info");
-            foreach (var m in messageInfoList)
-            {
-                System.Diagnostics.Debug.WriteLine(m.IsRead);
-            }
 
             return messageInfoList;
         }
+
 
         public static IEnumerable<UserInfo> GetUsersOfMessages(string id)
         {
@@ -138,6 +130,7 @@ namespace Community_ASP.NET.Models
 
             return userInfoList;
         }
+
 
         public static IEnumerable<UserAndSendersInfo.Sender> GetSendersOfMessages(string id)
         {
@@ -168,6 +161,7 @@ namespace Community_ASP.NET.Models
             }
             return senderList;
         }
+
 
         public static void UpdateMessage(Message message)
         {

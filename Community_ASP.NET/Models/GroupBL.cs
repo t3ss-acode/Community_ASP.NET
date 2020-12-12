@@ -61,7 +61,6 @@ namespace Community_ASP.NET.Models
                 joined = false;
             }
 
-            System.Diagnostics.Debug.WriteLine(groups.ToString());
             return groups;
         }
 

@@ -40,7 +40,6 @@ namespace Community_ASP.NET.Controllers
         // GET: WriteController/Create
         public ActionResult Create()
         {
-            System.Diagnostics.Debug.WriteLine("in get create");
             return View();
         }
 
@@ -50,18 +49,16 @@ namespace Community_ASP.NET.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("Name")] GroupInfo group)
         {
-            System.Diagnostics.Debug.WriteLine("in post create");
             try
             {
-                System.Diagnostics.Debug.WriteLine("Before modelState valid");
-                if (ModelState.IsValid)                    {
+                if (ModelState.IsValid)
+                {
                     GroupBL.AddGroup(group);
                       
-                    //Display confirmation that a message was sent. To who and when
+                    //Display confirmation that a group was created and when
                     TempData["custdetails"] = string.Format("The group  \"{0}\"was created, {1}", group.Name, DateTime.Now.ToString("HH:mm MM/dd/yyyy"));
                     return RedirectToAction(nameof(Index));
                 }
-                System.Diagnostics.Debug.WriteLine("After modelState valid");
             }
             catch (DbUpdateException /* ex */)
             {
@@ -84,7 +81,6 @@ namespace Community_ASP.NET.Controllers
                 {
                     return NotFound();
                 }
-                //det isRead in message
                 var group = GroupBL.GetGroup(id);
                 
                 return View(group);
@@ -101,11 +97,8 @@ namespace Community_ASP.NET.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult JoinConfirm([Bind("Id")] GroupInfo group)
         {
-            System.Diagnostics.Debug.WriteLine("in post create");
             try
             {
-                //Check if theyre already apart of the group
-                System.Diagnostics.Debug.WriteLine("Before modelState valid");
                 if (ModelState.IsValid)
                 {
                     var userGroup = new UserGroup();
@@ -113,10 +106,8 @@ namespace Community_ASP.NET.Controllers
                     userGroup.UserId = _userManager.GetUserId(User);
                     UserGroupBL.AddUserGroup(userGroup);
 
-
                     return RedirectToAction(nameof(Index));
                 }
-                System.Diagnostics.Debug.WriteLine("After modelState valid");
             }
             catch (DbUpdateException /* ex */)
             {
@@ -138,7 +129,6 @@ namespace Community_ASP.NET.Controllers
                 {
                     return NotFound();
                 }
-                //det isRead in message
                 var group = GroupBL.GetGroup(id);
 
                 return View(group);
@@ -155,11 +145,8 @@ namespace Community_ASP.NET.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LeaveConfirm([Bind("Id")] GroupInfo group)
         {
-            System.Diagnostics.Debug.WriteLine("in post create");
             try
             {
-                //Check if theyre already apart of the group
-                System.Diagnostics.Debug.WriteLine("Before modelState valid");
                 if (ModelState.IsValid)
                 {
                     var userGroup = new UserGroup();
@@ -167,10 +154,8 @@ namespace Community_ASP.NET.Controllers
                     userGroup.UserId = _userManager.GetUserId(User);
                     UserGroupBL.RemoveUserGroup(userGroup);
 
-
                     return RedirectToAction(nameof(Index));
                 }
-                System.Diagnostics.Debug.WriteLine("After modelState valid");
             }
             catch (DbUpdateException /* ex */)
             {

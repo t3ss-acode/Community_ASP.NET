@@ -65,7 +65,6 @@ namespace Community_ASP.NET.Controllers
         // GET: WriteController/Create
         public ActionResult Create()
         {
-            System.Diagnostics.Debug.WriteLine("in get create");
             return View();
         }
 
@@ -74,18 +73,16 @@ namespace Community_ASP.NET.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("MessageInfo")] MessageViewModel mvm)
         {
-            System.Diagnostics.Debug.WriteLine("in post create");
             try
             {
                 var message = mvm.MessageInfo;
                 message.SenderId = _userManager.GetUserId(User);
                 try
                 {
-                    System.Diagnostics.Debug.WriteLine("Before modelState valid");
                     if (ModelState.IsValid)
                     {
                         var sent = MessageBL.AddMessage(message);
-                        //Display confirmation that a message was sent. To who and when
+                        //Display confirmation if a message was sent. To who and when
                         if(sent)
                             TempData["custdetails"] = string.Format("Message sent to \"{0}\", {1}", message.ReceiverId, DateTime.Now.ToString("HH:mm MM/dd/yyyy"));
                         else
@@ -93,7 +90,6 @@ namespace Community_ASP.NET.Controllers
 
                         return RedirectToAction(nameof(Index));
                     }
-                    System.Diagnostics.Debug.WriteLine("After modelState valid");
                 }
                 catch (DbUpdateException ex)
                 {
